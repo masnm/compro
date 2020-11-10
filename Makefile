@@ -1,7 +1,6 @@
 all:
 	cat Makefile
 reset:
-	rm in1 in2 in3
 	touch in1 in2 in3
 	cp template main.cpp
 c:
