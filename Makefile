@@ -16,7 +16,7 @@ d:
 	rm a.out
 
 t:
-	g++ -g -std=c++17 -Wall main.cpp
+	g++ -Wall main.cpp -lpthread -std=c++17
 	./a.out < in1
 	./a.out < in2
 	./a.out < in3
