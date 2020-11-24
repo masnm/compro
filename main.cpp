@@ -1,32 +1,35 @@
-#include <bits/stdc++.h>
 
-using namespace std;
+#include <iostream> 
+#include <thread> 
+using namespace std; 
 
-#define ll long long
-#define ld long double
-
-void do_task ( int a, int b )
-{
-	for ( int i = 0 ; i<a ; i++ ) {
-		cout << i << " from " << b << "\n";
-		this_thread::sleep_for(chrono::milliseconds(1000));
-	}
+void foo(int Z) 
+{ 
+	for (int i = 0; i < Z; i++) { 
+		cout << "Thread using function"
+			   " pointer as callable\n"; 
+	} 
 }
+  
+int main() 
+{ 
+	cout << "Threads 1 and 2 and 3 "
+		 "operating independently" << endl; 
 
-int main ()
-{
-	//ios::sync_with_stdio(false);
-	//cin.tie(0);
-	std::vector<std::thread> threads;
-	ll t = 1, limit = 10;
-	cin >> t;
-	while ( t-- ) {
-		threads.push_back(thread(do_task, limit, t));
-	}
+	thread th1(foo, 3);
+  
+	// Define a Lambda Expression 
+	auto f = [](int x) { 
+		for (int i = 0; i < x; i++) 
+			cout << "Thread using lambda"
+			 " expression as callable\n"; 
+	}; 
 
-	for(auto& thread : threads){
-        thread.join();
-    }
+	thread th3(f, 3); 
 
-	return 0;
-}
+	th1.join();
+
+	th3.join(); 
+  
+	return 0; 
+} 

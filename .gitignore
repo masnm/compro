@@ -1,4 +1,8 @@
 in1
-*out
 in2
 in3
+*exe
+*ilk
+*obj
+*pdb
+.*
