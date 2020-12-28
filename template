@@ -5,15 +5,21 @@ using namespace std;
 #define ll long long
 #define ld long double
 
+
+void prepare_lookup_table ()
+{
+}
+
 void do_task ()
 {
-	
 }
 
 int main ()
 {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
+
+	prepare_lookup_table();
 	
 	ll t = 1;
 	cin >> t;

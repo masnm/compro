@@ -1,6 +1,7 @@
-all:
+ll:
 	cat Makefile
 reset:
+	rm in*
 	touch in1 in2 in3
 	cp template main.cpp
 c:
@@ -11,13 +12,15 @@ r:
 	./a.out
 	rm a.out
 d:
-	g++ -g -lm -std=c++17 -Wall main.cpp
+	g++ -g -lm -std=c++17 -Wall -o a.out main.cpp
 	gdb ./a.out
 	rm a.out
 
 t:
-	g++ -Wall main.cpp -lpthread -std=c++17
+	g++ -Wall main.cpp -std=c++17
 	./a.out < in1
 	./a.out < in2
 	./a.out < in3
 	rm a.out
+stc:
+	cat in*
