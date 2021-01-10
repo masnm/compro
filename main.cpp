@@ -25,26 +25,18 @@ void do_task ()
 	ll n,m; sl(n); sl(m);
 	ll arr[n+1][m] = { };
 	vector<ll> c(m);
-	//for ( ll i = 0 ; i < m ; i++ ) arr[0][i] = 1
 	for ( ll i = 0 ; i < m ; i++ ) sl(c[i]);
-	for ( ll i = 0 ; i < 1 ; i++ ) {
-		for ( ll j = 0 ; j < m ; j++ ) {
-			for ( ll k = j ; k < m ; k++ ) {
-				if ( i + c[k] < n + 1 ) {
-					arr[i+c[k]][k]++;
-				}
-			}
-		}
-	}
+
+	for ( ll i = 0 ; i < m ; i++ ) arr[0][i] = 1;
+
 	for ( ll i = 1 ; i < n+1 ; i++ ) {
 		for ( ll j = 0 ; j < m ; j++ ) {
-			for ( ll k = j ; k < m ; k++ ) {
-				if ( i + c[k] < n + 1 && arr[i][k] != 0 ) {
-					arr[i+c[k]][k]++;
-				}
-			}
+			ll x = ( i - c[j] >= 0 ) ? arr[i-c[j]][j] : 0;
+			ll y = ( j >= 1 ) ? arr[i][j-1] : 0;
+			arr[i][j] = x + y;
 		}
 	}
+
 	for ( ll i = 0 ; i < n+1 ; i++ ) {
 		for ( ll j = 0 ; j < m ; j++ ) {
 			pl(arr[i][j]);
