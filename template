@@ -5,6 +5,17 @@ using namespace std;
 #define ll long long
 #define ld long double
 
+#define sl(a) scanf("%lld",&a)
+#define pl(a) printf("%lld ",a)
+#define nln printf("\n")
+
+const long long INF = 1e18;
+const long long mod = 1000000007;
+
+#warning need array limit
+ll A[long(1e7+5)];
+ll B[long(1e7+5)];
+
 void prepare_lookup_table ()
 {
 }
@@ -15,13 +26,13 @@ void do_task ()
 
 int main ()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
+//	ios::sync_with_stdio(false);
+//	cin.tie(0);
 
 	prepare_lookup_table();
 
 	ll t = 1;
-	cin >> t;
+	sl(t);
 	while ( t-- ) {
 		do_task();
 	}
