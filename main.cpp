@@ -20,29 +20,14 @@ void prepare_lookup_table ()
 {
 }
 
-ll find_y ( ld x )
+ld find_y ( ld x )
 {
 	ld expo = 2.718281828;
 	#warning Put your function on the next line
 	// Your equation goes here.. 
 	// the equation is used  "(X^3+X^2+X+7)"
-	ld ans = x*pow(expo,x) - 1;
-	if ( ans < 0.0 ) return -1;
-	if ( ans > 0.0 ) return 1;
-	return 0;
-}
-
-ll find_y ( ld x , ld &a )
-{
-	ld expo = 2.718281828;
-	#warning Put your function on the next line
-	// Your equation goes here.. 
-	// the equation is used  "(X^3+X^2+X+7)"
-	ld ans = x*pow(expo,x) - 1;
-	a = ans;
-	if ( ans < 0.0 ) return -1;
-	if ( ans > 0.0 ) return 1;
-	return 0;
+	ld ans = ( x * x * x ) - ( x * x ) - 1;
+	return ans;
 }
 
 ld absf ( ld a ) { return a < 0.0 ? -a : a; }
@@ -55,19 +40,20 @@ bool need_to_iterate ( ld a, ld b, ld c )
 	return c <= x;
 }
 
-ld calculate_mid ( ld a, ld b ) {
-	ld ans = a + b;
-	return ans /= 2;
+ld calculate_mid ( ld x2, ld x1 )
+{
+	ld mid = ( ( x1 * find_y(x2) ) - ( x2 * find_y(x1) ) ) / ( find_y(x2) - find_y(x1) );
+	return mid;
 }
 
 bool found_values ( ld &m, ld &p, ld d, ld s )
 {
 	m = s;
 	p = m + d;
-	if ( find_y(m) == -1 && find_y(p) == 1 ) {
+	if ( find_y(m) < 0.0 && find_y(p) > 0.0 ) {
 		return true;
 	}
-	if ( find_y(m) == 1 && find_y(p) == -1 ) {
+	if ( find_y(m) > 0.0 && find_y(p) < 0.0 ) {
 		swap ( m, p );
 		return true;
 	}
@@ -77,17 +63,14 @@ bool found_values ( ld &m, ld &p, ld d, ld s )
 void find_values_for_pm ( ld& plus, ld& minus )
 {
 	plus = 0.0; minus = 0.0;
-	ld des = 0.1, start = -100;
+	ld des = 1.0, start = -100;
 	while ( plus == 0.0 && minus == 0.0 && des <= 10.0 ) {
 		start = -100;
 		while ( start < 101 ) {
 			start += des;
 			if ( found_values ( minus, plus, des, start ) ) {
-				ld out;
-				find_y ( minus, out );
-				cout << "Negative : " << minus << " " << out << "\n";
-				find_y ( plus, out );
-				cout << "Positive : " << plus << " " << out << "\n";
+				cout << "Negative : " << minus << " " << find_y(minus) << "\n";
+				cout << "Positive : " << plus << " " << find_y(plus) << "\n";
 				break;
 			}
 			minus = plus = 0.0;
@@ -111,6 +94,8 @@ void do_task ()
 		cout << "Minus : "; cin >> value_for_minus;
 		cout << "Plus : "; cin >> value_for_plus;
 	}
+//	value_for_plus = 1.0;
+//	value_for_minus = 0.5;
 	// replace the 'X' from the next line with the limit of accuracy
 
 	#warning Put the precission limit
@@ -131,26 +116,22 @@ void do_task ()
 
 		ld mid = calculate_mid ( value_for_plus, value_for_minus );
 
-		ld ans;
-		ll y = find_y ( mid, ans );
+		ld y = find_y ( mid );
 
 		cout << iteration++ << "\t" <<
 			value_for_minus << "\t" <<
 			value_for_plus << "\t" <<
 			mid << "\t" <<
-			ans << endl;
+			y << endl;
 
-		switch ( y ) {
-			case -1 :
-				value_for_minus = mid;
-				break;
-			case 1 :
-				value_for_plus = mid;
-				break;
-			case 0 :
-			default:
-				value_for_plus = value_for_minus = mid;
+		if ( y < 0.0 ) {
+			value_for_minus = mid;
+		} else if ( y > 0.0 ) {
+			value_for_plus = mid;
+		} else {
+			value_for_plus = value_for_minus = mid;
 		}
+
 		// if you don't want to press enter for every iteration
 		// just delete the next line 
 		cin.get();

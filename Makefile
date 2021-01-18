@@ -27,3 +27,7 @@ t:
 	rm a.out
 stc:
 	cat in*
+git:
+	git add .
+	git commit -S 
+	git push
