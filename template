@@ -5,12 +5,11 @@ using namespace std;
 #define ll long long
 #define ld long double
 
-#define sl(a) scanf("%lld",&a)
-#define pl(a) printf("%lld ",a)
-#define nln printf("\n")
-
 const long long INF = 1e18;
 const long long mod = 1000000007;
+
+bool chmax ( ll &a, ll b ) { return a < b ? a = b : false; }
+bool chmin ( ll &a, ll b ) { return a > b ? a = b : false; }
 
 #warning need array limit
 ll A[long(1e7+5)];
@@ -26,13 +25,13 @@ void do_task ()
 
 int main ()
 {
-//	ios::sync_with_stdio(false);
-//	cin.tie(0);
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
 
 	prepare_lookup_table();
 
 	ll t = 1;
-	sl(t);
+	cin >> t;
 	while ( t-- ) {
 		do_task();
 	}
