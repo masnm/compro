@@ -2,55 +2,49 @@
 
 using namespace std;
 
+#define ll long long
+#define ld long double
+
+#define chmax(a,b) if ( a < b ) a = b
+#define chmin(a,b) if ( a > b ) a = b
+
+#define si(a) scanf("%d",&a)
+#define pis(a) printf("%d ",a)
+#define pi(a) printf("%d",a)
+#define nln printf("\n")
+
 void prepare_lookup_table ()
 {
 }
 
-struct st {
-	int sum = 0;
-	int mn = INT_MAX;
-	int mx = INT_MIN;
-};
-
 void do_task ()
 {
-	int n,m; cin >> n >> m;
-	vector<vector<pair<int,int>>> gp(n+1);
-	int s,e,w;
-	while ( m-- ) {
-		cin >> s >> e >> w;
-		gp[s].emplace_back(e,w);
-		gp[e].emplace_back(s,w);
-	}
-	bool visited[n+1] = { };
-	queue<int> q; q.push(1); visited[1] = true;
-	st out[n+1];
-	out[1].sum = 0;
-	while ( !q.empty() ) {
-		int top = q.front(); q.pop();
-		for ( auto i : gp[top] ) {
-			if ( i.first != 1 && !visited[i.first] ) {
-				out[i.first].sum = out[top].sum + i.second;
-				out[i.first].mn = min ( out[top].mn, i.second );
-				out[i.first].mx = max ( out[top].mx, i.second );
-				q.push(i.first);
-				visited[i.first] = true;
-			} else if ( i.first != 1 ) {
-				int tsm = out[top].sum + i.second,
-				    tmx = max ( out[top].mx, i.second ),
-				    tmn = min ( out[top].mn, i.second );
-				if ( (out[i.first].sum-out[i.first].mx+out[i.first].mn) > (tsm-tmx+tmn) ) {
-					out[i.first].sum = tsm;
-					out[i.first].mn = tmn;
-					out[i.first].mx = tmx;
-					q.push(i.first);
-				}
-			}
+	string s; cin >> s;
+	vector<pair<int,char>> vp;
+	int len = s.length();
+	char prev = '.';
+	pair<int,char> p={INT_MIN,'.'};
+	for ( int i = 0 ; i < len ; i++ ) {
+		if ( s[i] != prev ) {
+			vp.push_back(p);
+			p.second = s[i];
+			p.first = 1;
+			prev = s[i];
+		} else {
+			p.first++;
 		}
 	}
-	for ( int i = 2 ; i <= n ; i++ ) {
-		cout << out[i].sum - out[i].mx + out[i].mn << " ";
+	vp.push_back(p);
+	sort ( vp.begin(), vp.end() );
+	p = vp[vp.size()-1];
+	if ( p.first > 6 ) {
+		cout << "YES\n";
+	} else {
+		cout << "NO\n";
 	}
+//	for ( auto i : vp ) {
+//		cout << i.first << " " << i.second << "\n";
+//	}
 }
 
 int main ()
@@ -60,8 +54,8 @@ int main ()
 
 	prepare_lookup_table();
 
-	int t = 1;
-	//cin >> t;
+	ll t = 1;
+//	cin >> t;
 	while ( t-- ) {
 		do_task();
 	}

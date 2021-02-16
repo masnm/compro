@@ -5,15 +5,13 @@ using namespace std;
 #define ll long long
 #define ld long double
 
-const long long INF = 1e18;
-const long long mod = 1000000007;
+#define chmax(a,b) if ( a < b ) a = b
+#define chmin(a,b) if ( a > b ) a = b
 
-bool chmax ( ll &a, ll b ) { return a < b ? a = b : false; }
-bool chmin ( ll &a, ll b ) { return a > b ? a = b : false; }
-
-#warning need array limit
-ll A[long(1e7+5)];
-ll B[long(1e7+5)];
+#define si(a) scanf("%d",&a)
+#define pis(a) printf("%d ",a)
+#define pi(a) printf("%d",a)
+#define nln printf("\n")
 
 void prepare_lookup_table ()
 {

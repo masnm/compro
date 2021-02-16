@@ -57,3 +57,5 @@ git:
 	@git commit -S 
 	@git push
 	@clear
+s:
+	clip.exe < main.cpp
