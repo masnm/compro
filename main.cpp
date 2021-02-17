@@ -42,9 +42,6 @@ void do_task ()
 	} else {
 		cout << "NO\n";
 	}
-//	for ( auto i : vp ) {
-//		cout << i.first << " " << i.second << "\n";
-//	}
 }
 
 int main ()
