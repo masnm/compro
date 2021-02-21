@@ -58,4 +58,10 @@ git:
 	@git push
 	@clear
 s:
-	clip.exe < main.cpp
+	@xclip -selection clipboard < main.cpp
+1:
+	@xclip -o > in1
+2:
+	@xclip -o > in2
+3:
+	@xclip -o > in3
