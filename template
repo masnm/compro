@@ -2,16 +2,12 @@
 
 using namespace std;
 
+#define endl "\n"
 #define ll long long
 #define ld long double
 
 #define chmax(a,b) if ( a < b ) a = b
 #define chmin(a,b) if ( a > b ) a = b
-
-#define si(a) scanf("%d",&a)
-#define pis(a) printf("%d ",a)
-#define pi(a) printf("%d",a)
-#define nln printf("\n")
 
 void prepare_lookup_table ()
 {
