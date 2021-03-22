@@ -9,37 +9,452 @@ using namespace std;
 #define chmax(a,b) if ( a < b ) a = b
 #define chmin(a,b) if ( a > b ) a = b
 
-#define mxn 101
-ll dp[mxn] = { };
-vector<ll> mn(mxn, LLONG_MAX);
-
-void solve ( ll a, ll b, ll c, ll ind, ll count )
-{
-	if ( ind+a < mxn ) {
-		++dp[ind+a];
-		solve ( a+3, b, c, ind+a, count+1 );
-	}
-	if ( ind+b < mxn ) {
-		++dp[ind+b];
-		solve ( a, b+3, c, ind+b, count+1 );
-	}
-	if ( ind+c < mxn ) {
-		++dp[ind+c];
-		solve ( a, b, c+3, ind+c, count+1 );
-	}
-	chmin ( mn[ind], count );
-}
-
 void prepare_lookup_table ()
 {
-	dp[0] = 1;
-	solve ( 1, 2, 3, 0, 0 );
 }
+
+void neg ( int& a )
+{
+	if ( a == 0 ) return 2;
+	if ( a == 2 ) return 0;
+	return 1;
+}
+
+int sor ( int a, int b ) { return max(a, b); }
+int sand ( int a, int b ) { return min(a, b); }
+
+struct stk {
+	char a[81];
+	int c = -1;
+	char top() { return a[c]; }
+	void push ( char ch ) { a[++c] = ch; }
+	void pop () { --c; }
+	bool empty () { return c==-1; }
+	void clear () { c = -1; }
+};
 
 void do_task ()
 {
-	for ( ll i = 0 ; i < mxn ; ++i ) {
-		cout << i << " " << (mn[i]==LLONG_MAX?-1:mn[i]) << " " << dp[i] << endl;
+	string s;
+	while ( cin >> s && s != "." ) {
+		ll ans = 0;
+		stk st;
+		for ( auto i : s ) {
+			if ( i == '-' ) {
+				st.push(i);
+			} else if ( i == 'P' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'Q' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'R' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == ')' ) {
+				char ch = st.top();
+				st.pop();
+				st.push(ch);
+			} else if ( i == '(' || i == '*' || i == '+' ) {
+				st.push(i);
+			} else if ( i == '0' || i == '1' || i == '2' ) {
+				int c = i-'0';
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg ( c );
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a' + c);
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char ch = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( ch == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					st.push('a'+cal);
+				}
+			}
+		}
+		if ( st.top() == '2' ) ++ans;
+		for ( auto i : s ) {
+			if ( i == '-' ) {
+				st.push(i);
+			} else if ( i == 'P' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'Q' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'R' ) {
+				int c = 1;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == ')' ) {
+				char ch = st.top();
+				st.pop();
+				st.push(ch);
+			} else if ( i == '(' || i == '*' || i == '+' ) {
+				st.push(i);
+			} else if ( i == '0' || i == '1' || i == '2' ) {
+				int c = i-'0';
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg ( c );
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a' + c);
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char ch = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( ch == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					st.push('a'+cal);
+				}
+			}
+		}
+		if ( st.top() == '2' ) ++ans;
+		for ( auto i : s ) {
+			if ( i == '-' ) {
+				st.push(i);
+			} else if ( i == 'P' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'Q' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'R' ) {
+				int c = 2;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == ')' ) {
+				char ch = st.top();
+				st.pop();
+				st.push(ch);
+			} else if ( i == '(' || i == '*' || i == '+' ) {
+				st.push(i);
+			} else if ( i == '0' || i == '1' || i == '2' ) {
+				int c = i-'0';
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg ( c );
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a' + c);
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char ch = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( ch == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					st.push('a'+cal);
+				}
+			}
+		}
+		if ( st.top() == '2' ) ++ans;
+		for ( auto i : s ) {
+			if ( i == '-' ) {
+				st.push(i);
+			} else if ( i == 'P' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'Q' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == 'R' ) {
+				int c = 0;
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg(c);
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st == '+' ) {
+					int cal;
+					char sign = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( sign == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					stk.push((char)cal+'a');
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				}
+			} else if ( i == ')' ) {
+				char ch = st.top();
+				st.pop();
+				st.push(ch);
+			} else if ( i == '(' || i == '*' || i == '+' ) {
+				st.push(i);
+			} else if ( i == '0' || i == '1' || i == '2' ) {
+				int c = i-'0';
+				if ( !st.empty() ) {
+					while ( st.top() == '-' ) {
+						neg ( c );
+						st.pop();
+					}
+				}
+				if ( st.empty() ) {
+					st.push('a' + c);
+				} else if ( st.top() == '(' ) {
+					st.push('a'+c);
+				} else if ( st.top() == '*' || st.top() == '+' ) {
+					int cal;
+					char ch = st.top(); st.pop();
+					int left = st.top()-'a'; st.pop();
+					if ( ch == '+' ) {
+						cal = sor ( left, c );
+					} else {
+						cal = sand ( left, c );
+					}
+					st.push('a'+cal);
+				}
+			}
+		}
+		if ( st.top() == '2' ) ++ans;
 	}
 }
 
@@ -51,7 +466,6 @@ int main ()
 	prepare_lookup_table();
 
 	ll t = 1;
-	cin >> t;
 	while ( t-- ) {
 		do_task();
 	}
