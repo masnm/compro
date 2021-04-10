@@ -65,3 +65,18 @@ s:
 	@xclip -o > in2
 3:
 	@xclip -o > in3
+%: %.cpp
+	@g++ -std=c++17 -Wshadow -Wall -o $@ $^ -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -g
+	@if [ -s in1 ]; then\
+		echo "Output one :";\
+		./$@ < in1;\
+	fi
+	@if [ -s in2 ]; then\
+		echo "Output two :";\
+		./$@ < in2;\
+	fi
+	@if [ -s in3 ]; then\
+		echo "Output three :";\
+		./$@ < in3;\
+	fi
+	@rm $@
