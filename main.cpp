@@ -24,9 +24,13 @@ void do_task ()
 	for ( ll i = 2 ; i <= n ; ++i ) {
 		for ( ll j = 1 ; j <= n-i+1 ; ++j ) {
 			ll ind = j+i-1;
+			cout << endl <<"Calculating for m[" << j << ',' << ind << "] = " << endl;
 			cost[j][ind] = LLONG_MAX;
 			for ( ll k = j ; k < ind ; ++k ) {
 				ll t = cost[j][k] + cost[k+1][ind] + v[j-1]*v[k]*v[ind];
+				cout<<"m["<<j<<','<<k<<"] + m["<<k+1<<','<<ind<<"] + P"<<j-1<<"P"<<k<<"P"<<ind<<'=';;
+				cout<<cost[j][k]<<" + "<<cost[k+1][ind]<<" + "<<"("<<v[j-1]<<'*'<<v[k]<<'*'<<v[ind]<<")";
+				cout << " = " << t << endl;
 				if ( t < cost[j][ind] ) {
 					cost[j][ind] = t;
 					mink[j][ind] = k;
@@ -34,6 +38,7 @@ void do_task ()
 			}
 		}
 	}
+	cout << endl;
 	string s = "";
 	for ( auto& i : cost ) {
 		for ( auto& j : i ) {
