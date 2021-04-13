@@ -16,62 +16,19 @@ void prepare_lookup_table ()
 
 void do_task ()
 {
-	ll n; cin >> n;
-	vector<ll> v(n);
-	for ( auto& i : v ) cin >> i;
-	--n;
-	vector<vector<ll>> cost(n+1,vector<ll>(n+1,0)), mink(n+1,vector<ll>(n+1,0));
-	for ( ll i = 2 ; i <= n ; ++i ) {
-		for ( ll j = 1 ; j <= n-i+1 ; ++j ) {
-			ll ind = j+i-1;
-			cout << endl <<"Calculating for m[" << j << ',' << ind << "] = " << endl;
-			cost[j][ind] = LLONG_MAX;
-			for ( ll k = j ; k < ind ; ++k ) {
-				ll t = cost[j][k] + cost[k+1][ind] + v[j-1]*v[k]*v[ind];
-				cout<<"m["<<j<<','<<k<<"] + m["<<k+1<<','<<ind<<"] + P"<<j-1<<"P"<<k<<"P"<<ind<<'=';;
-				cout<<cost[j][k]<<" + "<<cost[k+1][ind]<<" + "<<"("<<v[j-1]<<'*'<<v[k]<<'*'<<v[ind]<<")";
-				cout << " = " << t << endl;
-				if ( t < cost[j][ind] ) {
-					cost[j][ind] = t;
-					mink[j][ind] = k;
-				}
-			}
-		}
-	}
-	cout << endl;
-	string s = "";
-	for ( auto& i : cost ) {
-		for ( auto& j : i ) {
-			s = to_string(j); reverse(s.begin(),s.end());
-			ll llen = 6-s.length();
-			while ( llen-- ) { s += ' '; }
-			reverse(s.begin(),s.end());
-			cout << s << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
-	for ( auto& i : mink ) {
-		for ( auto& j : i ) {
-			s = to_string(j); reverse(s.begin(),s.end());
-			ll llen = 3-s.length();
-			while ( llen-- ) { s += ' '; }
-			reverse(s.begin(),s.end());
-			cout << s << " ";
-		}
-		cout << endl;
-	}
-	cout << endl;
+	ll a; cin >> a;
+	cout << a ;
 }
 
 int main ()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(0);
+	//ios_base::sync_with_stdio(false);
+	//cin.tie(0);
 
 	prepare_lookup_table();
 
 	int t = 1;
+	cin >> t;
 	for ( int i = 1 ; i <= t ; ++i ) {
 		//cout << "Case " << i << ": " ;
 		do_task();
