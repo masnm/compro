@@ -18,6 +18,10 @@ string p_r_s ( ll ind, set<ll>& s )
 {
 	string str = "g";
 	str += "(" + to_string(ind+1) + "," + "{";
+	if ( s.empty() ) {
+		str += ".})";
+		return str;
+	}
 	for ( auto& i : s ) str += to_string(i+1) + ",";
 	ll len = str.length();
 	str[len-1] = '}'; str += ")";
