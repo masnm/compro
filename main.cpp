@@ -14,129 +14,162 @@ void prepare_lookup_table ()
 {
 }
 
-map<pair<ll,ll>,ll> mp;
-
-void print ( vector<pair<ll,ll>>& vp )
+string gstr ( ld a, ll flen = 6 )
 {
-	for ( auto& i : vp ) {
-		ll ind = mp[i];
-		string st = "A-";
-		st += to_string ( ind );
-		reverse(st.begin(),st.end());
-		ll need = 4 - st.length();
-		while ( need-- > -1 ) {
-			st += " ";
+	string str = to_string(a);
+	int len = str.length(), ind = 0;
+	while ( ind < len && str[ind] != '.' ) {
+		++ind;
+	}
+	bool b = false;
+	for ( ll i = ind+1 ; i < len ; ++i ) {
+		if ( str[i] != '0' ) {
+			b = true;
+			break;
 		}
-		reverse(st.begin(),st.end());
-		cout << st << " ";
+	}
+	if ( b ) {
+		if ( str[ind+2] > '4' ) {
+			if ( str[ind+1] < '9' ) ++str[ind+1];
+		}
+		str = str.substr(0,ind+2);
+		reverse(str.begin(),str.end());
+		ll l = str.length();
+		for ( int i = l ; i < flen ; ++i ) {
+			str += " ";
+		}
+		reverse(str.begin(),str.end());
+	} else {
+		str = str.substr(0,ind);
+		reverse(str.begin(),str.end());
+		ll l = str.length();
+		for ( int i = l ; i < flen ; ++i ) {
+			str += " ";
+		}
+		reverse(str.begin(),str.end());
+	}
+	return str;
+}
+
+string nm ( string str, ll flen = 6 )
+{
+	ll l = str.length();
+	reverse ( str.begin(), str.end() );
+	for ( ll i = l ; i < flen ; ++i ) str += " ";
+	reverse ( str.begin(), str.end() );
+	return str;
+}
+
+void pi ( vector<pair<ld,pair<ld,ld>>>& vp, bool b = false ) {
+	if ( b ) cout << "The initial table is " << endl;
+	cout << nm ( "Pi" );
+	for ( auto& i : vp ) {
+		cout << gstr ( i.second.first ) << " ";
 	}
 	cout << endl;
+	cout << nm ( "Wi" );
 	for ( auto& i : vp ) {
-		string st = to_string(i.second); reverse(st.begin(), st.end());
-		ll need = 4 - st.length();
-		while ( need-- > -1 ) {
-			st += " ";
-		}
-		reverse(st.begin(),st.end());
-		cout << st << " ";
-	}
-	cout << endl;
-	for ( auto& i : vp ) {
-		string st = to_string(i.first); reverse(st.begin(), st.end());
-		ll need = 4 - st.length();
-		while ( need-- > -1 ) {
-			st += " ";
-		}
-		reverse(st.begin(),st.end());
-		cout << st << " ";
+		cout << gstr ( i.second.second ) << " ";
 	}
 	cout << endl;
 }
 
-void greedy ( vector<pair<ll,ll>>& vp, ll& n )
-{
-	cout << "The initial table is " << endl;
-	print ( vp );
-	sort(vp.begin(), vp.end());
-	cout << "The table after sorting in ascending orber by end time is " << endl;
-	print ( vp );
-	int taken = 0;
-	vector<pair<ll,ll>> va;
-	cout << endl;
+void ui ( vector<pair<ld,pair<ld,ld>>>& vp, bool b = false ) {
+	if ( b ) {
+		cout << "Calculate all the  Ui using formula." << endl;
+		cout << "        Pi" << endl;
+		cout << " Ui = ------" << endl;
+		cout << "        Wi"  << endl;
+	
+		cout << "The table after Calculation all the Ui" << endl;
+	}
+	pi(vp);
+	cout << nm ( "Ui" );
 	for ( auto& i : vp ) {
-		if ( i.second >= taken ) {
-			int ind = mp[i];
-			cout << "A-"<<ind<< " is valid ( " <<
-				i.second << " >= " << taken << " ) so adding it to ans."
-				<< endl;
-			va.emplace_back(i);
-			taken = i.first;
-			cout << "New accupied length is " << taken << endl;
-		} else {
-			int ind = mp[i];
-			cout << "A-"<<ind<<" is not valid ( " <<
-				i.second << " < " << taken << " ) so not adding it to ans."
-				<< endl;
+		cout << gstr ( i.first ) << " ";
+	}
+	cout << endl;
+}
+
+void si ( vector<pair<ld,pair<ld,ld>>>& vp, bool b = false )
+{
+	if ( b ) {
+		cout << "Now lets sort the table in decreasing order," << endl;
+		cout << "By comparing Ui." << endl;
+		cout << "The table after sorting is." << endl;
+	}
+	ui ( vp );
+}
+
+void xi ( vector<pair<ld,pair<ld,ld>>>& vp, vector<ld>& x, bool b = false )
+{
+	if ( b ) {
+		cout << "Table after calculation all the Xi is" << endl;
+	}
+	si(vp);
+	cout << nm ( "Xi" );
+	for ( auto& i : x ) {
+		cout << gstr ( i ) << " ";
+	}
+	cout << endl;
+}
+
+vector<ld> calculate_x ( vector<pair<ld,pair<ld,ld>>>& vp, ll n, ld bag )
+{
+	cout << "The total capacity of our bag is " << gstr(bag) << endl;
+	vector<ld> x(n,0);
+	ll xind = 0;
+	for ( auto& i : vp ) {
+		ld bb = bag, mns;
+		cout << "for i=" << xind << "," << endl;
+		if ( i.second.second < bag ) {
+			x[xind] = 1;
+			bag -= i.second.second;
+			mns = i.second.second;
+			cout << "As " << nm("W"+to_string(xind), 0) << " = ";
+			cout << i.second.second << " Which is < " << gstr(bb,0) << endl;
+			cout << "So, " << nm("X"+to_string(xind), 0) << " = 1 , and " << endl;
+			cout << "Rest capacity U = " << bb << " - " << mns << " = " << gstr(bag,0) << endl;
+		} else if ( bag <= i.second.second ) {
+			x[xind] = bag / i.second.second;
+			bag = 0;
+			cout << "As " << nm("W"+to_string(xind), 0) << " = ";
+			cout << i.second.second << " Which is ≮ " << gstr(bb,0) << endl;
+			cout << "So, " << nm("X"+to_string(xind), 0) << " = ( " ;
+			cout << gstr(bb,0) << " / " << gstr(i.second.second,0) << " ) = " << gstr(x[xind],0) << " , and" << endl;
+			cout << "Rest capacity U = " << bb << " -" << " ( " << gstr(i.second.second, 0) << " * ( ";
+			cout << gstr(bb,0) << " / " << gstr(i.second.second,0) << " ) ) = " << gstr(bag,0) << endl;
+			cout << endl;
+			break;
 		}
 		cout << endl;
+		++xind;
 	}
-	cout << "The ans table is " << endl;
-	print ( va );
-}
-
-vector<pair<ll,ll>> recar ( vector<pair<ll,ll>>& vp, ll ind, ll& n )
-{
-	ll m = ind + 1;
-	while ( m < n && vp[m].second < (ind == -1 ? 0: vp[ind].first) ) {
-		ll indx = mp[vp[m]];
-		cout << "A-" << indx << " is not valid," <<
-			" cause ( " << vp[m].second << " >= " << (ind == -1 ? 0: vp[ind].first) << " ). " <<
-		       "So not addint to ans." << endl;
-		++m;
-	}
-	if ( m < n ) {
-		ll indx = mp[vp[m]];
-		cout << "A-" << indx << " is valid," 
-			<< " cause ( " << vp[m].second << " < " << (ind == -1 ? 0: vp[ind].first) << " ). "
-			<< "so adding it to set and, " << endl;
-		cout << " recursively calling the next activityes." << endl << endl;
-		vector<pair<ll,ll>> v = recar ( vp, m, n );
-		v.emplace_back ( vp[m] );
-		return v;
-	} else {
-		cout << "As we finished the processing of all activity. " << endl;
-		cout << "We don't need to process more, and returning NULL set." << endl << endl;
-		return vector<pair<ll,ll>>();
-	}
+	return x;
 }
 
 void do_task ()
 {
-	ll n; cin >> n;
-	vector<pair<ll,ll>> vp(n);
-	for ( auto& i : vp ) {
-		cin >> i.second;
+	ll n; ld w; cin >> n >> w;
+	vector<pair<ld,pair<ld,ld>>> vp(n);
+	for ( auto& i : vp ) cin >> i.second.first;
+	for ( auto& i : vp ) cin >> i.second.second;
+	pi(vp, true); cout << endl;
+
+	for ( auto& i : vp ) i.first = i.second.first/i.second.second;
+	ui(vp, true); cout << endl;
+
+	sort ( vp.begin(), vp.end() ); reverse(vp.begin(), vp.end());
+	si(vp, true); cout << endl;
+
+	vector<ld> x = calculate_x ( vp, n, w );
+	xi(vp,x, true); cout << endl;
+
+	ld ans = 0;
+	for ( ll i = 0 ; i < n ; ++i ) {
+		ans += vp[i].second.first * x[i];
 	}
-	for ( auto& i : vp ) {
-		cin >> i.first;
-	}
-	ll index = 0;
-	for ( auto& i : vp ) {
-		mp[i] = ++index;
-	}
-	char ch; cin >> ch;
-	if ( ch == 'r' ) {
-		cout << "The initial table is " << endl;
-		print ( vp );
-		sort(vp.begin(), vp.end());
-		cout << "The table after sorting in ascending orber by end time is " << endl;
-		print ( vp );
-		vector<pair<ll,ll>> v = recar (vp, -1, n);
-		cout << "The ans table is " << endl;
-		print ( v );
-	} else if ( ch == 'g' ) {
-		greedy (vp, n);
-	}
+	cout << "The maximum profit is " << gstr(ans,0) << endl;
 }
 
 int main ()

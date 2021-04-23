@@ -43,6 +43,12 @@ int main ()
 	mt19937 mt(rd());
 	uniform_int_distribution ud(1,10);
 
+	ld x = 4.678544358576848;
+	ld xx = 5.00000000;
+	ld xxx = 6;
+	cout << to_string(x) << endl;
+	cout << to_string(xx) << endl;
+	cout << to_string(xxx) << endl;
 	int t = 1;
 	t = ud(mt);
 	cout << t << endl;
