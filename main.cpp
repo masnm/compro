@@ -26,14 +26,14 @@ ll min_distance ( vector<vector<ll>>& v, ll sr, ll er, ll sc, ll ec )
 	for ( ll i = sr + 1 ; i < er ; ++i ) {
 		ll thl = min_distance ( v, sr, i, sc, ec );
 		ll thr = min_distance ( v, i, er, sc, ec );
-		chmin ( ans, thl + thr );
+		chmin ( ans, cnt + thl + thr );
 	}
 	for ( ll i = sc + 1 ; i < ec ; ++i ) {
 		ll thl = min_distance ( v, sr, er, sc, i );
 		ll thr = min_distance ( v, sr, er, i, ec );
-		chmin ( ans, thl + thr );
+		chmin ( ans, cnt + thl + thr );
 	}
-	return cnt + (ans == LLONG_MAX ? 0 : ans );
+	return ans == LLONG_MAX ? 0 : ans;
 }
 
 void do_task ()
@@ -46,7 +46,8 @@ void do_task ()
 			mns += v[i][j];
 		}
 	}
-	cout << min_distance ( v, 0, n, 0, m ) - mns << endl;
+	cout << min_distance ( v, 0, n, 0, m ) << endl;
+	//cout << min_distance ( v, 0, n, 0, m ) - mns << endl;
 }
 
 int main ()
