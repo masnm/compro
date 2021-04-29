@@ -7,4 +7,5 @@ in3
 *pdb
 *bkp
 *out
-*.swap
+*.swp
+.main.cpp.swp

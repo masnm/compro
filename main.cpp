@@ -14,36 +14,39 @@ void prepare_lookup_table ()
 {
 }
 
+ll min_distance ( vector<vector<ll>>& v, ll sr, ll er, ll sc, ll ec )
+{
+	ll cnt = 0;
+	for ( ll i = sr ; i < er ; ++i ) {
+		for ( ll j = sc ; j < ec ; ++j ) {
+			cnt += v[i][j];
+		}
+	}
+	ll ans = LLONG_MAX;
+	for ( ll i = sr + 1 ; i < er ; ++i ) {
+		ll thl = min_distance ( v, sr, i, sc, ec );
+		ll thr = min_distance ( v, i, er, sc, ec );
+		chmin ( ans, thl + thr );
+	}
+	for ( ll i = sc + 1 ; i < ec ; ++i ) {
+		ll thl = min_distance ( v, sr, er, sc, i );
+		ll thr = min_distance ( v, sr, er, i, ec );
+		chmin ( ans, thl + thr );
+	}
+	return cnt + (ans == LLONG_MAX ? 0 : ans );
+}
+
 void do_task ()
 {
-	ll n, t, p; cin >> n >> t >> p; --p;
-	vector<vector<ll>> v(n,vector<ll>(t));
-	vector<pair<pair<ll,ll>,ll>> vpp;
-	ll sc[t] = { };
+	ll n, m, mns = 0; cin >> n >> m;
+	vector<vector<ll>> v(n, vector<ll>(m));
 	for ( ll i = 0 ; i < n ; ++i ) {
-		ll cnt = 0;
-		for ( ll j = 0 ; j < t ; ++j ) {
+		for ( ll j = 0 ; j < m ; ++j ) {
 			cin >> v[i][j];
-			if ( v[i][j] ) ++sc[j], ++cnt;
-		}
-		vpp.emplace_back ( make_pair( make_pair( -1, cnt ), n-i ) );
-	}
-	for ( ll i = 0 ; i < t ; ++i ) sc[i] = n - sc[i];
-	for ( ll i = 0 ; i < n ; ++i ) {
-		ll scr = 0;
-		for ( ll j = 0 ; j < t ; ++j ) {
-			scr += v[i][j] ? sc[j] : 0;
-		}
-		vpp[i].first.first = scr;
-	}
-	sort ( vpp.begin(), vpp.end() );
-	for ( ll i = n - 1 ; i > -1 ; --i ) {
-		if ( n - vpp[i].second == p ) {
-			cout << vpp[i].first.first << " " << n - vpp[i].second + 1 << endl;
-			return;
+			mns += v[i][j];
 		}
 	}
-	assert(false);
+	cout << min_distance ( v, 0, n, 0, m ) - mns << endl;
 }
 
 int main ()
