@@ -19,15 +19,15 @@ void do_task ()
 	random_device rd;
 	mt19937 mt(rd());
 	uniform_int_distribution un(1,20);
-	uniform_int_distribution ut(1,5);
-	
-	ll n = un(mt), k = ut(mt); cout << n << " " << k << endl;
+	uniform_int_distribution ut(1,1000);
+
+	ll n = 50, m = 50;
+	cout << n << " " << m << endl;
 	for ( ll i = 0 ; i < n ; ++i ) {
-		cout << un(mt) << " ";
-	}
-	cout << endl;
-	for ( ll i = 0 ; i < n ; ++i ) {
-		cout << un(mt) << " ";
+		for ( ll j = 0 ; j < m ; ++j ) {
+			cout << ut(mt) << " ";
+		}
+		cout << endl;
 	}
 	cout << endl;
 }
@@ -39,18 +39,12 @@ int main ()
 
 	prepare_lookup_table();
 
-	random_device rd;
-	mt19937 mt(rd());
-	uniform_int_distribution ud(1,10);
+//	random_device rd;
+//	mt19937 mt(rd());
+//	uniform_int_distribution ud(1,10);
 
-	ld x = 4.678544358576848;
-	ld xx = 5.00000000;
-	ld xxx = 6;
-	cout << to_string(x) << endl;
-	cout << to_string(xx) << endl;
-	cout << to_string(xxx) << endl;
 	int t = 1;
-	t = ud(mt);
+	//t = ud(mt);
 	cout << t << endl;
 	for ( int i = 1 ; i <= t ; ++i ) {
 		//cout << "Case " << i << ": " ;

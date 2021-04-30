@@ -14,8 +14,14 @@ void prepare_lookup_table ()
 {
 }
 
-ll min_distance ( vector<vector<ll>>& v, ll sr, ll er, ll sc, ll ec )
+const ll nax = 55;
+ll memo[nax][nax][nax][nax];
+
+ll find_min ( vector<vector<ll>>& v, ll sr, ll er, ll sc, ll ec )
 {
+	if ( memo[sr][er][sc][ec] != -1 ) {
+		return memo[sr][er][sc][ec];
+	}
 	ll cnt = 0;
 	for ( ll i = sr ; i < er ; ++i ) {
 		for ( ll j = sc ; j < ec ; ++j ) {
@@ -23,31 +29,39 @@ ll min_distance ( vector<vector<ll>>& v, ll sr, ll er, ll sc, ll ec )
 		}
 	}
 	ll ans = LLONG_MAX;
-	for ( ll i = sr + 1 ; i < er ; ++i ) {
-		ll thl = min_distance ( v, sr, i, sc, ec );
-		ll thr = min_distance ( v, i, er, sc, ec );
-		chmin ( ans, cnt + thl + thr );
+	for ( ll i = sc+1 ; i < ec ; ++i ) {
+		ll l = find_min ( v, sr, er, sc, i );
+		ll r = find_min ( v, sr, er, i, ec );
+		chmin ( ans, cnt + l + r );
 	}
-	for ( ll i = sc + 1 ; i < ec ; ++i ) {
-		ll thl = min_distance ( v, sr, er, sc, i );
-		ll thr = min_distance ( v, sr, er, i, ec );
-		chmin ( ans, cnt + thl + thr );
+	for ( ll i = sr+1 ; i < er ; ++i ) {
+		ll l = find_min ( v, sr, i, sc, ec );
+		ll r = find_min ( v, i, er, sc, ec );
+		chmin ( ans, cnt + l + r );
 	}
-	return ans == LLONG_MAX ? 0 : ans;
+	memo[sr][er][sc][ec] = ( ans == LLONG_MAX ? 0 : ans );
+	return memo[sr][er][sc][ec];
 }
 
 void do_task ()
 {
-	ll n, m, mns = 0; cin >> n >> m;
+	ll n, m; cin >> n >> m;
+	for ( ll i = 0 ; i <= n ; ++i ) {
+		for ( ll j = 0 ; j <= n ; ++j ) {
+			for ( ll k = 0 ; k <= m ; ++k ) {
+				for ( ll l = 0 ; l <= m ; ++l ) {
+					memo[i][j][k][l] = -1;
+				}
+			}
+		}
+	}
 	vector<vector<ll>> v(n, vector<ll>(m));
 	for ( ll i = 0 ; i < n ; ++i ) {
 		for ( ll j = 0 ; j < m ; ++j ) {
 			cin >> v[i][j];
-			mns += v[i][j];
 		}
 	}
-	cout << min_distance ( v, 0, n, 0, m ) << endl;
-	//cout << min_distance ( v, 0, n, 0, m ) - mns << endl;
+	cout << find_min ( v, 0, n, 0, m ) << endl;
 }
 
 int main ()
