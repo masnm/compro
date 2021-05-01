@@ -21,15 +21,15 @@ void do_task ()
 	uniform_int_distribution un(1,20);
 	uniform_int_distribution ut(1,1000);
 
-	ll n = 50, m = 50;
-	cout << n << " " << m << endl;
-	for ( ll i = 0 ; i < n ; ++i ) {
-		for ( ll j = 0 ; j < m ; ++j ) {
-			cout << ut(mt) << " ";
-		}
-		cout << endl;
+	queue<ll> q;
+	for ( ll i = 0 ; i < 5 ; ++i ) {
+		q.push ( un(mt) );
 	}
-	cout << endl;
+	while ( !q.empty() ) {
+		for ( auto& i : q ) cout << i << " ";
+		cout << endl;
+		q.pop();
+	}
 }
 
 int main ()
@@ -45,7 +45,7 @@ int main ()
 
 	int t = 1;
 	//t = ud(mt);
-	cout << t << endl;
+	//cout << t << endl;
 	for ( int i = 1 ; i <= t ; ++i ) {
 		//cout << "Case " << i << ": " ;
 		do_task();

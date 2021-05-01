@@ -14,54 +14,50 @@ void prepare_lookup_table ()
 {
 }
 
-const ll nax = 55;
-ll memo[nax][nax][nax][nax];
-
-ll find_min ( vector<vector<ll>>& v, ll sr, ll er, ll sc, ll ec )
+void play ( vector<pair<ll,ll>>& v )
 {
-	if ( memo[sr][er][sc][ec] != -1 ) {
-		return memo[sr][er][sc][ec];
+	for ( auto& i : v ) if ( i.first > i.second ) swap ( i.first, i.second );
+}
+
+void print ( vector<pair<ll,ll>>& v )
+{
+	for ( auto& i : v ) cout << i.first << " ";
+	cout << endl;
+	for ( auto& i : v ) cout << i.second << " ";
+	cout << endl;
+	cout << endl;
+}
+
+void decide ( vector<pair<ll,ll>>& v )
+{
+	ll fl = v[0].second, sz = v.size();
+	v[0].second = v[1].first;
+	for ( ll i = 1 ; i < sz - 1 ; ++i ) {
+		v[i].first = v[i+1].first;
 	}
-	ll cnt = 0;
-	for ( ll i = sr ; i < er ; ++i ) {
-		for ( ll j = sc ; j < ec ; ++j ) {
-			cnt += v[i][j];
-		}
-	}
-	ll ans = LLONG_MAX;
-	for ( ll i = sc+1 ; i < ec ; ++i ) {
-		ll l = find_min ( v, sr, er, sc, i );
-		ll r = find_min ( v, sr, er, i, ec );
-		chmin ( ans, cnt + l + r );
-	}
-	for ( ll i = sr+1 ; i < er ; ++i ) {
-		ll l = find_min ( v, sr, i, sc, ec );
-		ll r = find_min ( v, i, er, sc, ec );
-		chmin ( ans, cnt + l + r );
-	}
-	memo[sr][er][sc][ec] = ( ans == LLONG_MAX ? 0 : ans );
-	return memo[sr][er][sc][ec];
+	v[sz-1].first = fl;
 }
 
 void do_task ()
 {
-	ll n, m; cin >> n >> m;
-	for ( ll i = 0 ; i <= n ; ++i ) {
-		for ( ll j = 0 ; j <= n ; ++j ) {
-			for ( ll k = 0 ; k <= m ; ++k ) {
-				for ( ll l = 0 ; l <= m ; ++l ) {
-					memo[i][j][k][l] = -1;
-				}
-			}
+	ll n, r; cin >> n >> r;
+	vector<pair<ll,ll>> vv(n);
+	for ( auto& i : vv ) cin >> i.first >> i.second;
+	for ( ll i = 0 ; i < 2 * n - 1 ; ++i ) {
+		vector<pair<ll,ll>> v = vv;
+		for ( ll x = 0 ; x < r ; ++x ) {
+			play ( v );
+			decide ( v );
+		}
+		print ( v );
+		if ( i%2 == 0 ) {
+			ll ind = i/2;
+			swap ( vv[ind].first, vv[ind].second );
+		} else {
+			ll ind = i/2;
+			swap ( vv[ind].second, vv[ind+1].first );
 		}
 	}
-	vector<vector<ll>> v(n, vector<ll>(m));
-	for ( ll i = 0 ; i < n ; ++i ) {
-		for ( ll j = 0 ; j < m ; ++j ) {
-			cin >> v[i][j];
-		}
-	}
-	cout << find_min ( v, 0, n, 0, m ) << endl;
 }
 
 int main ()
