@@ -16,20 +16,42 @@ void prepare_lookup_table ()
 
 void do_task ()
 {
-	random_device rd;
-	mt19937 mt(rd());
-	uniform_int_distribution un(1,20);
-	uniform_int_distribution ut(1,1000);
-
-	queue<ll> q;
-	for ( ll i = 0 ; i < 5 ; ++i ) {
-		q.push ( un(mt) );
-	}
-	while ( !q.empty() ) {
-		for ( auto& i : q ) cout << i << " ";
-		cout << endl;
-		q.pop();
-	}
+//	random_device rd;
+//	mt19937 mt(rd());
+//	uniform_int_distribution<int> un(1,20);
+//	uniform_int_distribution<int> ut(2,5);
+//
+//	ll n = 29; // must be odd ans > 3
+//	vector<ll> v ( n );
+//	for ( ll i = 0 ; i < n ; ++i ) v[i] = i+1;
+//	ll t = un(mt);
+//	while ( t-- ) random_shuffle(v.begin(), v.end());
+//	queue<ll> q;
+//	for ( auto& i : v ) q.push(i);
+//	set<ll> s;
+//	vector<pair<ll,ll>> vp;
+//	s.insert ( q.front() ); q.pop();
+//	while ( !q.empty() ) {
+//		ll sz = ut(mt); if ( sz % 2 == 1 ) ++sz;
+//		if ( sz > (ll)q.size() ) sz = q.size();
+//		vector<ll> nd;
+//		for ( ll i = 0 ; i < sz ; ++i ) {
+//			nd.emplace_back ( q.front() );
+//			q.pop();
+//		}
+//		for ( ll i = 0 ; i < sz ; ++i ) {
+//			ll start = *s.begin();
+//			s.erase(s.begin());
+//			s.insert(nd[i]);
+//			vp.emplace_back(start,nd[i++]);
+//			s.insert(nd[i]);
+//			vp.emplace_back(start,nd[i]);
+//		}
+//	}
+//	for ( auto& i : vp ) {
+//		cout << i.first << " " << i.second << endl;
+//	}
+	cout << 4999999937 << endl;
 }
 
 int main ()
@@ -41,11 +63,11 @@ int main ()
 
 //	random_device rd;
 //	mt19937 mt(rd());
-//	uniform_int_distribution ud(1,10);
+//	uniform_int_distribution<int> ud(1,10);
 
-	int t = 1;
+	int t = 5000;
 	//t = ud(mt);
-	//cout << t << endl;
+	cout << t << endl;
 	for ( int i = 1 ; i <= t ; ++i ) {
 		//cout << "Case " << i << ": " ;
 		do_task();
