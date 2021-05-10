@@ -14,99 +14,43 @@ void prepare_lookup_table ()
 {
 }
 
-void dfa ( vector<vector<ll>>& g, ll s, vector<bool>& v, stack<ll>& st )
-{
-	for ( auto& i : g[s] ) {
-		if ( !v[i] ) {
-			v[i] = true;
-			dfa ( g, i, v, st );
-		}
-	}
-	st.push(s);
-}
+const ll inf = 1e18 + 5;
 
-void dfb ( vector<vector<ll>>& g, ll s, vector<bool>& v, ll& id, vector<ll>& ids )
+void sssp ( vector<vector<ll>>& g, ll s, vector<ll>& d )
 {
-	ids[s] = id;
-	for ( auto& i : g[s] ) {
-		if ( !v[i] ) {
-			v[i] = true;
-			dfb ( g, i, v, id, ids );
+	priority_queue<pair<ll,ll>> pq;
+	d[s] = 0;
+	pq.push( {-0, s} );
+	while ( !pq.empty() ) {
+		ll cp = pq.top().second, cpd = abs(pq.top().first); pq.pop();
+		if ( cpd > d[cp] ) continue;
+		for ( auto& i : g[cp] ) {
+			if ( d[i] > d[cp] + 1 ) {
+				d[i] = d[cp] + 1;
+				pq.push( {-d[i], i} );
+			}
 		}
 	}
-}
-
-ll dfs ( vector<vector<ll>>& g, vector<bool>& v, ll s, ll e, vector<ll>& ans, vector<ll>& fun )
-{
-	if ( s == e ) {
-		return fun[e];
-	}
-	ll ca = LLONG_MIN;
-	v[s] = true;
-	for ( auto& i : g[s] ) {
-		if ( !v[i] ) {
-			v[i] = true;
-			ans[i] = dfs ( g, v, i, e, ans, fun );
-		}
-		chmax ( ca, ans[i] );
-	}
-	ans[s] = fun[s] + ( ca == LLONG_MIN ? 0 : ca );
-	return ans[s];
 }
 
 void do_task ()
 {
-	ll n,m,s,e; cin >> n >> m >> s >> e; --s; --e;
-	vector<vector<ll>> ga ( n, vector<ll>() ), gb ( n, vector<ll>() );
-	vector<ll> cst ( n );
-	for ( auto& i : cst ) cin >> i;
-	ll ss, ee;
-	for ( ll i = 0 ; i < m ; ++i ) {
-		cin >> ss >> ee; --ss; --ee;
-		ga[ss].emplace_back(ee);
-		gb[ee].emplace_back(ss);
+	ll n, r; cin >> n >> r;
+	vector<vector<ll>> g ( n, vector<ll>() );
+	ll s, e;
+	for ( ll i = 0 ; i < r ; ++i ) {
+		cin >> s >> e;
+		g[s].emplace_back(e);
+		g[e].emplace_back(s);
 	}
-	vector<bool> v ( n, false );
-	stack<ll> st;
+	cin >> s >> e;
+	vector<ll> ds ( n, inf ), de ( n , inf );
+	sssp ( g, s, ds );
+	sssp ( g, e, de );
+	ll fans = -inf;
 	for ( ll i = 0 ; i < n ; ++i ) {
-		if ( !v[i] ) {
-			v[i] = true;
-			dfa ( ga, i, v, st );
-		}
+		chmax ( fans, ds[i] + de[i] );
 	}
-	for ( ll i = 0 ; i < n ; ++i ) v[i] = false;
-	vector<ll> ids ( n, -1 );
-	ll id = 0, top;
-	while ( !st.empty() ) {
-		top = st.top(); st.pop();
-		if ( !v[top] ) {
-			v[top] = true;
-			dfb ( gb, top, v, id, ids );
-			++id;
-		}
-	}
-	set<pair<ll,ll>> vt;
-	for ( ll i = 0 ; i < n ; ++i ) {
-		for ( auto& j : ga[i] ) {
-			ss = ids[i], ee = ids[j];
-			if ( ss != ee )
-				vt.insert ( { ss, ee } );
-		}
-	}
-	vector<ll> fun ( id, 0 );
-	for ( ll i = 0 ; i < n ; ++i ) {
-		fun[ids[i]] += cst[i];
-	}
-	vector<vector<ll>> gc ( id, vector<ll>() );
-	for ( auto& i : vt ) {
-		gc[i.first].emplace_back(i.second);
-	}
-	s = ids[s];
-	e = ids[e];
-	vector<ll> ans ( id, -1 );
-	for ( ll i = 0 ; i < id ; ++i ) v[i] = false;
-	ans[e] = fun[e];
-	ll fans = dfs ( gc, v, s, e, ans, fun );
 	cout << fans << endl;
 }
 
@@ -118,12 +62,12 @@ int main ()
 	prepare_lookup_table();
 
 	int t = 1;
+	cin >> t;
 	for ( int i = 1 ; i <= t ; ++i ) {
-		//cout << "Case " << i << ": " ;
+		cout << "Case " << i << ": " ;
 		do_task();
 	}
 
 
 	return 0;
 }
-// resize-pane -L 30 
