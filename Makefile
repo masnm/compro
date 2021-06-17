@@ -11,7 +11,7 @@ reset:
 c:
 	@g++ -std=c++17 -Wall main.cpp
 	@rm a.out
-r:
+r: main.cpp
 	@g++ -std=c++17 -Wall main.cpp
 	@./a.out
 	@rm a.out

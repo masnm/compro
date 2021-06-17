@@ -8,13 +8,26 @@ typedef long long int ll;
 typedef unsigned long long ull;
 
 const ll inf = 1e18 + 5;
-const ll mod = 1e9 + 7;
 
 template<typename T> void chmax ( T& a, T b ) { if ( a < b ) a = b; }
 template<typename T> void chmin ( T& a, T b ) { if ( a > b ) a = b; }
 
 void prepare_lookup_table ()
 {
+}
+
+const ll mod = 1000000007;
+
+ll mod_pow ( ll cnt )
+{
+	int a = 2;
+	ll power = 1;
+	while ( cnt ) {
+		if ( cnt%2 ) power = (power * a) % mod;
+		a = (a*a) % mod;
+		cnt /= 2;
+	}
+	return power % mod;
 }
 
 void do_task ()
