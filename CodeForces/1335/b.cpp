@@ -19,6 +19,19 @@ void prepare_lookup_table ()
 
 void do_task ()
 {
+	ll n, m, k; cin >> n >> m >> k;
+	string s;
+	for ( ll i = 0 ; i < 26 ; ++i ) {
+		s += char ( i + 'a' );
+	}
+	string ans;
+	int ind = 0;
+	for ( int i = 0 ; i < n ; ++i ) {
+		ans += s[ind];
+		++ind;
+		if ( ind >= k ) ind = 0;
+	}
+	cout << ans << endl;
 }
 
 int main ()

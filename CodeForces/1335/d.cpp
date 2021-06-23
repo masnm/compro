@@ -19,6 +19,25 @@ void prepare_lookup_table ()
 
 void do_task ()
 {
+	vector<string> v ( 9 );
+	for ( string& ii : v ) cin >> ii;
+	ll i = 0, j = 0, ni = 0;
+	while ( true ) {
+		if ( i >= 9 || j >= 9 ) break;
+		int x = v[i][j] - '1';
+		x += 4;
+		x %= 9;
+		v[i][j] = char ( x + '1' );
+		++j;
+		i += 3;
+		if ( i > 8 ) {
+			++ni;
+			i = ni;
+		}
+	}
+	for ( const string& ii : v ) {
+		cout << ii << endl;
+	}
 }
 
 int main ()

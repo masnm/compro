@@ -19,6 +19,21 @@ void prepare_lookup_table ()
 
 void do_task ()
 {
+	ll n; cin >> n;
+	vector<ll> v ( n );
+	for ( ll& i : v ) cin >> i;
+	vector<vector<ll>> dp ( n+1, vector<ll> ( n+1 ) );
+	for ( ll i = 1 ; i <= n ; ++i ) {
+		for ( ll j = 1 ; j <= n ; ++j ) {
+			ll ni=i-1, nj=j-1;
+			if ( v[ni] == v[nj] ) {
+				dp[i][j] = dp[i-1][j-1] + 1;
+			} else {
+				dp[i][j] = max ( dp[i-1][j], dp[i][j-1] );
+			}
+		}
+	}
+	cout << dp[n][n] << endl;
 }
 
 int main ()

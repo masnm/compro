@@ -19,6 +19,10 @@ void prepare_lookup_table ()
 
 void do_task ()
 {
+	ll n; cin >> n;
+	ll mid = n/2;
+	ll ans = mid - ( n%2 == 0 ? 1 : 0 );
+	cout << ( ans < 0 ? 0 : ans ) << endl;
 }
 
 int main ()
