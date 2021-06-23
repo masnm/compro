@@ -1,11 +1,7 @@
-in1
-in2
-in3
-*exe
-*ilk
-*obj
-*pdb
-*bkp
-*out
+*.out
 *.swp
-.main.cpp.swp
+./CodeForces/*/?in1
+./CodeForces/*/in*
+./CodeForces/*/*2
+./*/*/*in
+./*/*/*out
