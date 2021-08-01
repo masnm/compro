@@ -5,6 +5,6 @@ then
 	echo ""
 else
 	python ./Template/codeforces_prepare_contest.py $1
-	cp ./Template/Makefile ./$1/Makefile
-	cp ./Template/verdict.sh ./$1/verdict.sh
+	#cp ./Template/Makefile ./$1/Makefile
+	#cp ./Template/verdict.sh ./$1/verdict.sh
 fi

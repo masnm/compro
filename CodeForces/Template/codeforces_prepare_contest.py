@@ -165,7 +165,7 @@ def main():
         folder = '%s/' % (contest)
         call(['mkdir', '-p', folder])
         string_pro = './' + contest + '/' + problem.lower() + '.cpp'
-        call(['cp', './Template/template', string_pro ])
+        #call(['cp', './Template/template', string_pro ])
         #call(['cp', '-n', TEMPLATE, '%s/%s.%s' % (folder, problem, TEMPLATE.split('.')[1])])
         num_tests = parse_problem(folder, contest, problem)
         print('%d sample test(s) found.' % num_tests)
