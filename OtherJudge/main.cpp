@@ -1,76 +1,63 @@
 #include <bits/stdc++.h>
-
 using namespace std;
+#define sim template < class c
+#define ris return * this
+#define dor > debug & operator <<
+#define eni(x) sim > typename \
+  enable_if<sizeof dud<c>(0) x 1, debug&>::type operator<<(c i) {
+sim > struct rge { c b, e; };
+sim > rge<c> range(c i, c j) { return rge<c>{i, j}; }
+sim > auto dud(c* x) -> decltype(cerr << *x, 0);
+sim > char dud(...);
+struct debug {
+#ifdef LOCAL
+~debug() { cerr << endl; }
+eni(!=) cerr << boolalpha << i; ris; }
+eni(==) ris << range(begin(i), end(i)); }
+sim, class b dor(pair < b, c > d) {
+  ris << "(" << d.first << ", " << d.second << ")";
+}
+sim dor(rge<c> d) {
+  *this << "[";
+  for (auto it = d.b; it != d.e; ++it)
+	*this << ", " + 2 * (it == d.b) << *it;
+  ris << "]";
+}
+#else
+sim dor(const c&) { ris; }
+#endif
+};
+#define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+// debug & operator << (debug & dd, P p) { dd << "(" << p.x << ", " << p.y << ")"; return dd; }
 
-#define endl '\n'
-typedef long double ld;
-typedef long long int ll;
 typedef unsigned long long ull;
 
-const ll inf = 1e18 + 5;
-const ll mod = 1e9 + 7;
-
-template<typename T> void chmax ( T& a, T b ) { if ( a < b ) a = b; }
-template<typename T> void chmin ( T& a, T b ) { if ( a > b ) a = b; }
-
-void prepare_lookup_table ()
+void solve ()
 {
-}
-
-void do_task ()
-{
-	ll n; cin >> n;
-	vector<ll> v ( n );
-	for ( ll& i : v ) cin >> i;
-	ll mn = inf, mni;
-	for ( int i = 1 ; i < n ; ++i ) {
-		if ( abs ( v[i] - v[i-1] ) < mn ) {
-			mn = abs ( v[i] - v[i-1] );
-			mni = i;
+	ull l, r;
+	scanf ( "%llu%llu", &l, &r );
+	ull ans = l;
+	for ( ull i = 0 ; i < 63 ; ++i ) {
+		if ( !(ans & ( 1LL << i )) ) {
+			if ( ( ans | ( 1LL << i ) ) <= r ) {
+				debug() << imie ( ans ) imie ( r );
+				ans = ans | ( 1LL << i );
+			}
 		}
 	}
-	sort( v.begin(), v.end() );
-	vector<ll> ans ( n );
-	ans[0] = v[mni];
-	ans[n-1] = v[mni-1];
-	ll thi = 1;
-	for ( ll i = 0 ; i < n && ( thi < n - 1 ) ; ++i ) {
-		if ( i == mni || i == mni-1 ) continue;
-		ans[thi] = v[i];
-		thi += 2;
-		v[i] = -1;
-	}
-	thi = 2;
-	for ( ll i = 0 ; i < n && ( thi < n -1 ) ; ++i ) {
-		if ( i == mni || i == mni-1 ) continue;
-		if ( v[i] == -1 ) continue;
-		ans[thi] = v[i];
-		thi += 2;
-	}
-	if ( v[1] < v[0] && ans.size() > 2 ) {
-		reverse(ans.begin(), ans.end());
-		swap(ans[0], ans[n-1]);
-	}
-	for ( ll& i : ans ) {
-		cout << i << " ";
-	}
-	cout << endl;
+	
+	printf("%llu", ans );
+	puts("");
 }
 
-int main ()
+int main ( int argc, char** argv )
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(0);
-
-	prepare_lookup_table();
-
-	int t = 1;
-	cin >> t;
-	for ( int i = 1 ; i <= t ; ++i ) {
-//		cout << "Case " << i << ": " ;
-		do_task();
+	int n;
+	scanf ( "%d", &n );
+	while ( n-- ) {
+		solve ();
 	}
-
-
+	
+	puts("");
 	return 0;
 }

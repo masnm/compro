@@ -1,7 +1,3 @@
 *.out
 *.swp
-./CodeForces/*/?in1
-./CodeForces/*/in*
-./CodeForces/*/*2
-./*/*/*in
 ./*/*/*out
