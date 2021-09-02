@@ -14,7 +14,8 @@ for (( i = 1 ; i < 6 ; ++i ));
 do
 	if [ -f $1in$i ]
 	then
-		DIFF=$(diff -w <(./$1.out < $1in$i) $1out$i)
+		./$1.out < $1in$i > script_output
+		DIFF=$(diff -wB script_output $1out$i)
 		if [ "$DIFF" == "" ]
 		then
 			echo -e '\e[0;32m#________Accepted________#\e[m'
