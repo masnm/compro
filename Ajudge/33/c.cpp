@@ -37,38 +37,58 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-const int nax = 100005;
-int ar[nax];
-int n, lim;
+const ll mod = 1000000007;
+ll pr[11];
+ll ans = 0, sum;
+ll ar[11];
+ll tc[11];
+ll n, l;
 
-int score ()
+void pre ()
 {
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
+	pr[1] = 1;
+	for ( ll i = 2 ; i < 11 ; ++i ) {
+		pr[i] = pr[i-1] * i;
+		pr[i] %= mod;
+	}
+}
+
+void consider ()
+{
+	sum = 0;
+	for ( int i = 0 ; i < n ; ++i ) sum += tc[i];
+	if ( sum == l ) ++ans;
+	if ( ans >= mod ) ans -= mod;
+}
+
+void recar ( int ssf, int ind )
+{
+	if ( ssf > l ) return;
+	if ( ind == n ) {
+		return consider();
+	}
+	for ( int i = 0 ; i <= ar[ind] ; ++i ) {
+		if ( ssf + i > l ) break;
+		tc [ ind ] = i;
+		recar ( ssf + i, ind + 1 );
+	}
 }
 
 void solve ()
 {
-	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
-	}
+	scanf ( "%lld%lld", &n, &l );
+	for ( int i = 0 ; i < n ; ++i ) scanf ( "%lld", &ar[i] );
+	recar ( 0, 0 );
+	ans *= pr[n];
+	ans %= mod;
+	printf ( "%lld", ans );
 }
 
 int main ()
 {
+	pre ();
 	int t = 1;
-	scanf ( "%d" , &t );
+//	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {
 //		printf ( "Case %d: ", i+1 );
 		solve ();

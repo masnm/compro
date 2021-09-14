@@ -36,32 +36,75 @@ sim dor(const c&) { ris; }
 #define eb emplace_back
 
 using ll = long long int;
-
-const int nax = 100005;
-int ar[nax];
-int n, lim;
-
-int score ()
+string read_string ()
 {
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
+	static char ch[105];
+	scanf ( "%s", ch );
+	return string ( ch );
 }
+
+bool ar[105];
 
 void solve ()
 {
+	int n;
 	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
+	int a, b, c;
+	scanf ( "%d%d%d", &a, &b, &c );
+	string ss = read_string();
+	int r = 0, p = 0, s = 0;
+	for ( const char& ch : ss ) {
+		if ( ch == 'R' ) ++r;
+		else if ( ch == 'P' ) ++p;
+		else ++s;
+	}
+	int win = 0, wina = 0, winb = 0, winc = 0;
+	wina = min ( a, s );
+	winb = min ( b, r );
+	winc = min ( c, p );
+	a -= wina;
+	b -= winb;
+	c -= winc;
+	win = wina + winb + winc;
+	if ( win >= ((n+1)/2) ) {
+		for ( int i = 0 ; i < n + 2 ; ++i ) ar[i] = false;
+		int idx = 0;
+		for ( char& ch : ss ) {
+			if ( ch == 'R' && winb > 0 ) {
+				ar[idx] = true;
+				-- winb;
+				ch = 'P';
+			} else if ( ch == 'P' && winc > 0 ) {
+				ar[idx] = true;
+				-- winc;
+				ch = 'S';
+			} else if ( ch == 'S' && wina > 0 ) {
+				ar[idx] = true;
+				-- wina;
+				ch = 'R';
+			}
+			++idx;
+		}
+		idx = 0;
+		for ( char& ch : ss ) {
+			if ( !ar[idx] ) {
+				if ( a > 0 ) {
+					--a;
+					ch = 'R';
+				} else if ( b > 0 ) {
+					--b;
+					ch = 'P';
+				} else {
+					--c;
+					ch = 'S';
+				}
+			}
+			++idx;
+		}
+		puts ( "YES" );
+		puts ( ss.c_str() );
+	} else {
+		puts ( "NO" );
 	}
 }
 

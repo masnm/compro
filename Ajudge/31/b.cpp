@@ -36,33 +36,52 @@ sim dor(const c&) { ris; }
 #define eb emplace_back
 
 using ll = long long int;
+char read_string ()
+{
+	static char ch[5];
+	scanf ( "%s", ch );
+	return ch[0];
+}
 
 const int nax = 100005;
-int ar[nax];
-int n, lim;
+vector<int> gn(nax), pig[nax];
+int n, s, e, yc, nc;
+char c;
 
-int score ()
+void uni ()
 {
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
+	int sg = gn[s], eg = gn[e];
+	if ( sg == eg ) return;
+	if ( pig[sg].size() < pig[eg].size() ) swap ( sg, eg );
+	for ( const int& i : pig[eg] ) {
+		gn[i] = sg;
+		pig[sg].eb(i);
+	}
+	pig[eg].clear();
+}
+
+void updt ()
+{
+	if ( gn[s] == gn[e] ) ++yc;
+	else ++nc;
 }
 
 void solve ()
 {
 	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
+	assert ( n < nax );
+	for ( int i = 0 ; i < nax ; ++i ) gn[i] = i;
+	for ( int i = 0 ; i < nax ; ++i ) pig[i].clear(), pig[i].eb(i);
+	yc = nc = 0;
+	for ( int i = 0 ; i < n ; ++i ) {
+		c = read_string ();
+		scanf ( "%d%d", &s, &e );
+		debug() << imie(c) imie(s) imie(e);
+		if ( c == 'c' ) uni ();
+		else if ( c == 'q' ) updt ();
+		else assert ( false );
 	}
+	printf ( "%d %d\n", yc, nc );
 }
 
 int main ()

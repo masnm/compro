@@ -37,38 +37,19 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-const int nax = 100005;
-int ar[nax];
-int n, lim;
-
-int score ()
-{
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
-}
-
 void solve ()
 {
-	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
-	}
+	ll n;
+	scanf ( "%lld", &n );
+	ll ans = n/2;
+	if ( n & 1LL ) ++ans;
+	printf ( "%lld", ans );
 }
 
 int main ()
 {
 	int t = 1;
-	scanf ( "%d" , &t );
+//	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {
 //		printf ( "Case %d: ", i+1 );
 		solve ();

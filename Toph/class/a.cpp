@@ -31,73 +31,64 @@ sim dor(const c&) { ris; }
 #define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
 // debug & operator << (debug & dd, P p) { dd << "(" << p.x << ", " << p.y << ")"; return dd; }
 
+#define F first
+#define S second
+#define eb emplace_back
+
 using ll = long long int;
-string read_string ()
-{
-	static char ch[200005];
-	scanf ( "%s", ch );
-	return string ( ch );
-}
 
-bool ok ( const string& s )
+const int nax = 100005;
+ll ar[nax], t, mx;
+int n, q;
+
+void solve ()
 {
-	int b = 0;
-	for ( char c : s ) {
-		c == ')' ? --b : ++b;
-		if ( b < 0 ) return false;
+	scanf ( "%d", &n );
+	priority_queue<pair<ll,int>> pq;
+	for ( int i = 0 ; i < n ; ++i ) {
+		scanf ( "%lld", &t );
+		pq.push ( { t, i } );
 	}
-	return b==0;
-}
-
-void solve()
-{
-	vector<int> v;
-	string s = read_string();
-	bool fa = false;
-	int len = s.length();
-	int ans = INT_MAX;
-	string bkp = s;
-	for ( int rep = 0 ; rep < 2 ; ++rep ) {
-		for ( int i = 0 ; i < len ; ++i ) {
-			if ( ok(s) ) {
-				ans = min ( ans, i );
-				fa = true;
-			}
-			if ( rep ) {
-				char cb = s.end()[-1];
-				s.pop_back();
-				s.insert ( s.begin(), cb );
-			} else {
-				char cb = s[0];
-				s.erase(0,1);
-				s += cb;
-			}
-			debug() << imie(s);
+	scanf ( "%d", &q );
+	scanf ( "%lld", &t );
+	mx = t;
+	pair<ll,int> pr;
+	while ( pq.top().F >= mx ) {
+		pr = pq.top();
+		pq.pop();
+		pr.F %= mx;
+		pq.push ( pr );
+	}
+	for ( int i = 1 ; i < q ; ++i ) {
+		scanf ( "%lld", &t );
+		mx = t;
+		while ( pq.top().F >= mx ) {
+			pr = pq.top();
+			pq.pop();
+			pr.F %= mx;
+			pq.push ( pr );
 		}
-			debug() << imie("secnd");
-		s = bkp;
 	}
-	if ( fa ) {
-		printf ( "%d\n", ans);
-	} else {
-		puts ( "impossible" );
+	while ( !pq.empty() ) {
+		pr = pq.top(); pq.pop();
+		ar[pr.S] = pr.F;
+	}
+	for ( int i = 0 ; i < n ; ++i ) {
+		if ( i != 0 ) printf ( " " );
+		printf ( "%lld", ar[i] );
 	}
 }
 
 int main ()
 {
-/*   /\
- * \/  \
- *      \
- */
-
-	int t;
-	scanf ( "%d" , &t );
-	int i = 0;
-	while ( t-- ) {
-		printf ( "Case %d: ", ++i );
-		solve();
+	int tt = 1;
+	scanf ( "%d" , &tt );
+	for ( int i = 0 ; i < tt ; ++i ) {
+		if ( i != 0 ) printf ( "\n" );
+		printf ( "Case %d:\n", i+1 );
+		solve ();
 	}
+
 
 	return 0;
 }

@@ -37,43 +37,46 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-const int nax = 100005;
-int ar[nax];
-int n, lim;
+const int nax = 50010;
+vector<int> mg(nax), pig[nax];
+int n, m, s, t;
 
-int score ()
+void clr ()
 {
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
+	for ( int i = 0 ; i < n+5 ; ++i ) mg[i] = i;
+	for ( int i = 0 ; i < n+5 ; ++i ) pig[i].clear(), pig[i].eb(i);
 }
 
-void solve ()
+void merge ()
 {
-	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
+	int gs = mg[s], gt = mg[t];
+	if ( gs == gt ) return;
+	if ( pig[gs] < pig[gt] ) swap ( gs, gt );
+	for ( int& i : pig[gt] ) {
+		pig[gs].eb(i);
+		mg[i] = gs;
 	}
+	pig[gt].clear();
 }
 
 int main ()
 {
-	int t = 1;
-	scanf ( "%d" , &t );
-	for ( int i = 0 ; i < t ; ++i ) {
-//		printf ( "Case %d: ", i+1 );
-		solve ();
+	int cas = 0;
+	while ( scanf ( "%d%d", &n, &m ) != EOF ) {
+		if ( n == m && n == 0 ) break;
+		clr();
+		printf ( "Case %d: ", ++cas );
+		for ( int i = 0 ; i < m ; ++i ) {
+			scanf ( "%d%d", &s, &t );
+			merge ();
+		}
+		int ans = 0;
+		for ( int i = 0 ; i < n ; ++i ) {
+			debug() << imie(pig[i]);
+			ans += (pig[i].size()>0?1:0);
+		}
+		printf ( "%d\n", ans );
 	}
-
 
 	return 0;
 }

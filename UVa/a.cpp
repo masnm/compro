@@ -37,32 +37,22 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-const int nax = 100005;
-int ar[nax];
-int n, lim;
+int a1, b1, c1, d1, a2, b2, c2, d2;
 
-int score ()
+void msp ()
 {
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
+	swap ( a1, a2 );
+	swap ( b1, b2 );
+	swap ( c1, c2 );
+	swap ( d1, d2 );
 }
 
 void solve ()
 {
-	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
-	}
+	scanf ( "%d%d%d%d", &a1, &b1, &c1, &d1 );
+	scanf ( "%d%d%d%d", &a2, &b2, &c2, &d2 );
+	int total = 100 * 100;
+	if ( a1 >= a2 && 
 }
 
 int main ()
