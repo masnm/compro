@@ -37,36 +37,25 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-ll get ( ll n )
-{
-	switch ( n % 4 ) {
-		case 1 :
-			return n;
-			break;
-		case 2 :
-			return -1;
-			break;
-		case 3 :
-			return - n - 1;
-			break;
-		case 0 :
-			return 0;
-			break;
-		default :
-			assert ( false );
-			break;
-	}
-}
-
 void solve ()
 {
-	ll s, n;
-	scanf ( "%lld%lld", &s, &n );
-	ll st = get ( n );
-	if ( s%2 == 0 ) {
-		printf ( "%lld\n", s - st );
-	} else {
-		printf ( "%lld\n", s + st );
+	ll n;
+	scanf ( "%lld", &n );
+	for ( ll c = 1 ; c < sqrt(n) + 5 ; ++c ) {
+		ll b = c;
+		while ( true ) {
+			b += c;
+			ll a = n - b - c;
+			if ( a == c ) continue;
+			if ( a < c ) break;
+			if ( __gcd(a,b) != c ) continue;
+			if ( a % c != 0 ) continue;
+			if ( (a+b+c) == n ) {
+				printf ( "%lld %lld %lld\n", a, b, c );
+				return;
+			}
+			if ( b + c > n ) break;
+		}
 	}
 }
 

@@ -36,38 +36,45 @@ sim dor(const c&) { ris; }
 #define eb emplace_back
 
 using ll = long long int;
-
-ll get ( ll n )
+string read_string ()
 {
-	switch ( n % 4 ) {
-		case 1 :
-			return n;
+	static char ch[105];
+	scanf ( "%s", ch );
+	return string ( ch );
+}
+
+int a = 0, b = 0, c = 0;
+
+void doa ( string& s )
+{
+	int pos = 0;
+	for ( int i = 0 ; i < (int)s.length() ; ++i ) {
+		if ( s[i] == 'b' ) {
+			pos = i;
 			break;
-		case 2 :
-			return -1;
-			break;
-		case 3 :
-			return - n - 1;
-			break;
-		case 0 :
-			return 0;
-			break;
-		default :
-			assert ( false );
-			break;
+		}
 	}
+	while ( c-- ) s[pos++] = 'c';
+	while ( b-- ) s[pos++] = 'b';
+	printf ( "%s\n", s.c_str() );
 }
 
 void solve ()
 {
-	ll s, n;
-	scanf ( "%lld%lld", &s, &n );
-	ll st = get ( n );
-	if ( s%2 == 0 ) {
-		printf ( "%lld\n", s - st );
-	} else {
-		printf ( "%lld\n", s + st );
+	string s = read_string (), t = read_string ();
+	sort ( s.begin(), s.end() );
+	if ( s.find("a")==string::npos || s.find("b")==string::npos || s.find("c")==string::npos ) {
+		printf ( "%s\n", s.c_str() );
+		return;
 	}
+	a = 0; b = 0; c = 0;
+	for ( char& x : s ) {
+		if ( x == 'a' ) ++a;
+		if ( x == 'b' ) ++b;
+		if ( x == 'c' ) ++c;
+	}
+	if ( t == "abc" ) doa ( s );
+	else printf ( "%s\n", s.c_str() );
 }
 
 int main ()

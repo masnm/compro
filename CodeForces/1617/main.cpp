@@ -37,41 +37,16 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-ll get ( ll n )
-{
-	switch ( n % 4 ) {
-		case 1 :
-			return n;
-			break;
-		case 2 :
-			return -1;
-			break;
-		case 3 :
-			return - n - 1;
-			break;
-		case 0 :
-			return 0;
-			break;
-		default :
-			assert ( false );
-			break;
-	}
-}
-
 void solve ()
 {
-	ll s, n;
-	scanf ( "%lld%lld", &s, &n );
-	ll st = get ( n );
-	if ( s%2 == 0 ) {
-		printf ( "%lld\n", s - st );
-	} else {
-		printf ( "%lld\n", s + st );
-	}
 }
 
 int main ()
 {
+	for ( int i = 0 ; i < 100000 ; ++i ) {
+		cout << 1002367812+rand()%10000 << endl;
+	}
+	return 0;
 	int t = 1;
 	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {

@@ -37,43 +37,63 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-ll get ( ll n )
+ll x, y, z;
+ll _x, _y, _z;
+
+bool ok ()
 {
-	switch ( n % 4 ) {
-		case 1 :
-			return n;
-			break;
-		case 2 :
-			return -1;
-			break;
-		case 3 :
-			return - n - 1;
-			break;
-		case 0 :
-			return 0;
-			break;
-		default :
-			assert ( false );
-			break;
+	for ( int i = 0 ; i < 4 ; ++i ) {
+		if ( _x > _y ) swap ( _x, _y );
+		if ( _y > _z ) swap ( _y, _z );
 	}
+	return ( x==_x && y==_y && z==_z );
+}
+
+ll get ( vector<ll>& v, int sz )
+{
+	ll count = 0;
+	vector<ll> ps(sz,0);
+	ps[0] = v[0];
+	for ( int i = 1 ; i < sz ; ++i )
+		ps[i] = ps[i-1] + v[i];
+	for ( int i = 0 ; i < sz ; ++i ) {
+		for ( int j = i + 1 ; j < sz ; ++j ) {
+			for ( int k = j + 1 ; k < sz ; ++k ) {
+				_x = ps[i];
+				_y = ps[j] - ps[i];
+				_z = ps[k] - ps[j];
+				if ( ok () ) ++count;
+			}
+		}
+	}
+	return count;
 }
 
 void solve ()
 {
-	ll s, n;
-	scanf ( "%lld%lld", &s, &n );
-	ll st = get ( n );
-	if ( s%2 == 0 ) {
-		printf ( "%lld\n", s - st );
-	} else {
-		printf ( "%lld\n", s + st );
+	int a, b;
+	scanf ( "%d%d", &a, &b );
+	vector<ll> l(a), u(b);
+	ll t;
+	for ( int i = 0 ; i < a ; ++i )
+		for ( int j = 0 ; j < b ; ++j ) {
+			scanf ( "%lld", &t );
+			l[i] += t;
+			u[j] += t;
+		}
+	scanf ( "%lld%lld%lld", &x, &y, &z );
+	for ( int i = 0 ; i < 4 ; ++i ) {
+		if ( x > y ) swap ( x, y );
+		if ( y > z ) swap ( y, z );
 	}
+	ll ans = get ( l, a );
+	ans += get ( u, b );
+	printf ( "%lld", ans );
 }
 
 int main ()
 {
 	int t = 1;
-	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {
 //		printf ( "Case %d: ", i+1 );
 		solve ();
