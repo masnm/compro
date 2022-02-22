@@ -107,11 +107,11 @@ int main ( int argc, char** argv )
 	BIT bit( n );
 	for ( int i = 0 ; i < n ; ++i ) {
 		if ( pos_of_last [ a[i] ] != -1 ) {
-			-- cnt [ pos_of_last [ a[i] ] ];
+			//-- cnt [ pos_of_last [ a[i] ] ];
 			bit.add ( pos_of_last[a[i]], -1 );
 		}
 		pos_of_last [ a[i] ] = i;
-		++ cnt [ pos_of_last [ a[i] ] ];
+		//++ cnt [ pos_of_last [ a[i] ] ];
 		bit.add ( pos_of_last[a[i]], 1 );
 		for ( pair<int,int>& q : vv[i] ) {
 		//	int sum = 0;
@@ -131,7 +131,5 @@ int main ( int argc, char** argv )
 		}
 	}
 
-	puts("");
 	return 0;
 }
-
