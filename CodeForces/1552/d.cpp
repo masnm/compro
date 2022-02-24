@@ -40,41 +40,16 @@ using ll = long long int;
 int n;
 bool ans;
 vector<int> v, in;
-set<int> mn;
 
-bool ok ()
+bool ok ( void )
 {
-	vector<vector<int>> vvi ( 3, vector<int>(0) );
+	if ( accumulate ( v.begin(), v.end(), 0 ) == 0 ) return ans;
+	int sum = 0;
 	for ( int i = 0 ; i < n ; ++i )
-		vvi[v[i]].eb(in[i]);
-	//for ( vector<int>& i : vvi )
-	//	sort ( i.begin(), i.end() );
-	set<int> s;
-	for ( int x = 0 ; x < 2 ; ++x ) {
-	// for ( vector<int>& i : vvi ) {
-		vector<int>& i = vvi[x];
-		if ( int ( i.size() ) < 2 ) {
-			s.insert(0);
-			for ( int j : i )
-				s.insert(j);
-		}
-		else {
-			s.insert(0);
-			s.insert(i[0]);
-			for ( int j = 1 ; j < int(i.size()) ; ++j )
-				s.insert(i[j]+i[j-1]);
-		}
-	}
-	for ( int i = 0 ; i < int(vvi[2].size()) ; ++i ) {
-		for ( int j = 0 ; j < int(vvi[2].size()) ; ++j ) {
-			if ( i == j ) continue;
-			if ( s.count(vvi[2][i] + vvi[2][j]) != 0 ) ans = true;
-		}
-	}
-	//if ( mn.size() > s.size() )
-	//	mn = s;
-	// ans = (int(s.size()) <= n);
-	if ( ans ) debug() << imie(s);
+		sum += ((v[i]==2?-1:v[i]) * in[i]);
+	ans = ( sum == 0 );
+	if ( ans ) debug() << imie(v);
+	if ( ans ) debug() << imie(in);
 	return ans;
 }
 
@@ -94,9 +69,6 @@ bool recar ( int ind )
 
 void solve ()
 {
-	vector<int> _v ( 15 );
-	iota ( _v.begin(), _v.end(), 0 );
-	mn = set<int>(_v.begin(), _v.end());
 	scanf ( "%d", &n );
 	in.assign ( n, 0 );
 	for ( int i = 0 ; i < n ; ++i )
@@ -121,3 +93,38 @@ int main ()
 	return 0;
 }
 
+// bool ok ()
+// {
+	// vector<vector<int>> vvi ( 3, vector<int>(0) );
+	// for ( int i = 0 ; i < n ; ++i )
+		// vvi[v[i]].eb(in[i]);
+	// //for ( vector<int>& i : vvi )
+		// //sort ( i.begin(), i.end() );
+	// set<int> s;
+	// for ( int x = 0 ; x < 2 ; ++x ) {
+	 // //for ( vector<int>& i : vvi ) {
+		// vector<int>& i = vvi[x];
+		// if ( int ( i.size() ) < 2 ) {
+			// s.insert(0);
+			// for ( int j : i )
+				// s.insert(j);
+		// }
+		// else {
+			// s.insert(0);
+			// s.insert(i[0]);
+			// for ( int j = 1 ; j < int(i.size()) ; ++j )
+				// s.insert(i[j]+i[j-1]);
+		// }
+	// }
+	// for ( int i = 0 ; i < int(vvi[2].size()) ; ++i ) {
+		// for ( int j = 0 ; j < int(vvi[2].size()) ; ++j ) {
+			// if ( i == j ) continue;
+			// if ( s.count(vvi[2][i] + vvi[2][j]) != 0 ) ans = true;
+		// }
+	// }
+	// //if ( mn.size() > s.size() )
+		// //mn = s;
+	 // //ans = (int(s.size()) <= n);
+	// if ( ans ) debug() << imie(s);
+	// return ans;
+// }
