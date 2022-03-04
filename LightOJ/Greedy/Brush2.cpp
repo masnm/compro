@@ -37,49 +37,28 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-constexpr const int nax = 10000005;
-constexpr const ll sq = ll(sqrt(double(nax))) + 5,
-		  dsq = ll(sqrt(sqrt(double(nax)))) + 5;
-bool b[nax], v[nax];
-// bitset<nax> b, v;
-vector<int> ans ( nax, 0 );
-ll ti;
-
-void pre ()
-{
-	b[0] = b[1] = true;
-	for ( int i = 2 ; i * i < nax ; ++i )
-		if ( !b[i] )
-			for ( int j = i * i ; j < nax ; j += i )
-				b[j] = true;
-	for ( int i = 0 ; i < sq ; ++i ) {
-		for ( int j = 0 ; j < dsq ; ++j ) {
-			ti = (i*i) + (j*j*j*j);
-			if ( ti < nax ) v[ti] = true;
-		}
-	}
-	int cnt = 0;
-	for ( int i = 0 ; i < nax ; ++i ) {
-		if ( (!b[i] == v[i]) && v[i] == true )
-			++cnt;
-		ans[i] = cnt;
-	}
-}
-
 void solve ()
 {
-	int n;
-	scanf ( "%d", &n );
-	printf ( "%d\n", ans[n] );
+	ll n, w, t;
+	scanf ( "%lld%lld", &n, &w );
+	vector<ll> v ( n );
+	for ( ll& i : v ) scanf ( "%lld%lld", &t, &i );
+	sort ( v.begin(), v.end() );
+	ll ans = 0;
+	for ( int i = 0 ; i < n ; ++i ) {
+		ll me = v[i];
+		while ( i < n && v[i] <= me+w ) ++i;
+		++ans;
+	}
+	printf ( "%lld\n", ans );
 }
 
 int main ()
 {
-	pre ();
 	int t = 1;
 	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {
-//		printf ( "Case %d: ", i+1 );
+		printf ( "Case %d: ", i+1 );
 		solve ();
 	}
 

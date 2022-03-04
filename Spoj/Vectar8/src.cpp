@@ -37,13 +37,9 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-constexpr const int nax = 10000005;
-constexpr const ll sq = ll(sqrt(double(nax))) + 5,
-		  dsq = ll(sqrt(sqrt(double(nax)))) + 5;
-bool b[nax], v[nax];
-// bitset<nax> b, v;
+const int nax = 1e6 + 5;
+bitset<nax> b;
 vector<int> ans ( nax, 0 );
-ll ti;
 
 void pre ()
 {
@@ -52,24 +48,16 @@ void pre ()
 		if ( !b[i] )
 			for ( int j = i * i ; j < nax ; j += i )
 				b[j] = true;
-	for ( int i = 0 ; i < sq ; ++i ) {
-		for ( int j = 0 ; j < dsq ; ++j ) {
-			ti = (i*i) + (j*j*j*j);
-			if ( ti < nax ) v[ti] = true;
-		}
-	}
 	int cnt = 0;
 	for ( int i = 0 ; i < nax ; ++i ) {
-		if ( (!b[i] == v[i]) && v[i] == true )
-			++cnt;
+		if ( !b[i] && to_string(i).find('0') == string::npos ) ++cnt;
 		ans[i] = cnt;
 	}
 }
 
 void solve ()
 {
-	int n;
-	scanf ( "%d", &n );
+	int n; scanf ( "%d", &n );
 	printf ( "%d\n", ans[n] );
 }
 

@@ -37,49 +37,39 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-constexpr const int nax = 10000005;
-constexpr const ll sq = ll(sqrt(double(nax))) + 5,
-		  dsq = ll(sqrt(sqrt(double(nax)))) + 5;
-bool b[nax], v[nax];
-// bitset<nax> b, v;
-vector<int> ans ( nax, 0 );
-ll ti;
-
-void pre ()
-{
-	b[0] = b[1] = true;
-	for ( int i = 2 ; i * i < nax ; ++i )
-		if ( !b[i] )
-			for ( int j = i * i ; j < nax ; j += i )
-				b[j] = true;
-	for ( int i = 0 ; i < sq ; ++i ) {
-		for ( int j = 0 ; j < dsq ; ++j ) {
-			ti = (i*i) + (j*j*j*j);
-			if ( ti < nax ) v[ti] = true;
-		}
-	}
-	int cnt = 0;
-	for ( int i = 0 ; i < nax ; ++i ) {
-		if ( (!b[i] == v[i]) && v[i] == true )
-			++cnt;
-		ans[i] = cnt;
-	}
-}
-
 void solve ()
 {
-	int n;
-	scanf ( "%d", &n );
-	printf ( "%d\n", ans[n] );
+	int n; scanf ( "%d", &n );
+	vector<int> ans;
+	int t;
+	for ( int i = 0 ; i < ((2*n)-1) ; ++i ) {
+		if ( ans.empty() ) { scanf ( "%d", &t ); ans.eb(t); continue; }
+		int ns = ( i >= n ? n - (i-n + 1) : i+1 );
+		vector<int> nxt ( ns ), nans ( ns, 0 );
+		for ( int& j : nxt ) scanf ( "%d", &j );
+		if ( int(ans.size()) < ns ) {
+			for ( int _i = 0 ; _i < int(ans.size()) ; ++_i ) {
+				nans[_i] = max ( nans[_i], ans[_i] + nxt[_i] );
+				nans[_i+1] = max ( nans[_i+1], ans[_i] + nxt[_i+1] );
+			}
+		} else {
+			for ( int _i = 0 ; _i < int(ans.size()) ; ++_i ) {
+				if ( _i < ns ) nans[_i] = max ( nans[_i], ans[_i] + nxt[_i] );
+				if ( _i > 0 ) nans[_i-1] = max ( nans[_i-1], ans[_i] + nxt[_i-1] );
+			}
+		}
+		ans = nans;
+	}
+	assert ( ans.size() == 1 );
+	printf ( "%d\n", *ans.begin() );
 }
 
 int main ()
 {
-	pre ();
 	int t = 1;
 	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {
-//		printf ( "Case %d: ", i+1 );
+		printf ( "Case %d: ", i+1 );
 		solve ();
 	}
 

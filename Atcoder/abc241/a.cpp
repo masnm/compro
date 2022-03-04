@@ -37,47 +37,17 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-constexpr const int nax = 10000005;
-constexpr const ll sq = ll(sqrt(double(nax))) + 5,
-		  dsq = ll(sqrt(sqrt(double(nax)))) + 5;
-bool b[nax], v[nax];
-// bitset<nax> b, v;
-vector<int> ans ( nax, 0 );
-ll ti;
-
-void pre ()
-{
-	b[0] = b[1] = true;
-	for ( int i = 2 ; i * i < nax ; ++i )
-		if ( !b[i] )
-			for ( int j = i * i ; j < nax ; j += i )
-				b[j] = true;
-	for ( int i = 0 ; i < sq ; ++i ) {
-		for ( int j = 0 ; j < dsq ; ++j ) {
-			ti = (i*i) + (j*j*j*j);
-			if ( ti < nax ) v[ti] = true;
-		}
-	}
-	int cnt = 0;
-	for ( int i = 0 ; i < nax ; ++i ) {
-		if ( (!b[i] == v[i]) && v[i] == true )
-			++cnt;
-		ans[i] = cnt;
-	}
-}
-
 void solve ()
 {
-	int n;
-	scanf ( "%d", &n );
-	printf ( "%d\n", ans[n] );
+	vector<int> v(10);
+	for ( int& i : v ) scanf ( "%d", &i );
+	printf ( "%d\n", v[v[v[0]]] );
 }
 
 int main ()
 {
-	pre ();
 	int t = 1;
-	scanf ( "%d" , &t );
+//	scanf ( "%d" , &t );
 	for ( int i = 0 ; i < t ; ++i ) {
 //		printf ( "Case %d: ", i+1 );
 		solve ();
