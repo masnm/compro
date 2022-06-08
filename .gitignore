@@ -18,3 +18,7 @@
 # memory time input output file
 *intm
 *outtm
+
+# Tags and tag files
+tags
+*/tags
