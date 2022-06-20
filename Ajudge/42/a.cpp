@@ -31,59 +31,46 @@ sim dor(const c&) { ris; }
 #define imie(...) " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
 // debug & operator << (debug & dd, P p) { dd << "(" << p.x << ", " << p.y << ")"; return dd; }
 
+#define F first
+#define S second
+#define eb emplace_back
+
 using ll = long long int;
 
-struct dsu {
-	int n, gc;
-	vector<int> v;
-	vector<vector<int>> g;
-	dsu ( int _n ) : n(_n)
-	{
-		gc = n;
-		v.resize(n);
-		g.resize(n);
-		for ( int i = 0 ; i < n ; ++i ) v[i] = i;
-		for ( int i = 0 ; i < n ; ++i ) g[i].clear(), g[i].emplace_back(i);
+void solve ()
+{
+	int n,a,b,c; scanf ( "%d", &n );
+	int dv = n/3, re = n % 3;
+	switch ( re ) {
+		case 0:
+			n -= 6;
+			dv = n/3;
+			printf ( "%d %d %d\n", dv+2, dv+3, dv+1 );
+			return;
+		case 1:
+			a = dv, b = dv+1, c = dv;
+			a += 1; c -= 1;
+			b += 1; c -= 1;
+			if ( c == 0 ) { a -= 1; c += 1; }
+			printf ( "%d %d %d\n", a, b, c );
+			return;
+		case 2:
+			a = dv+1, b = dv+1, c = dv;
+			b += 1; c -= 1;
+			printf ( "%d %d %d\n", a, b, c );
+			return;
+		default:
+			assert ( false );
 	}
-	bool dab ( int s, int e )
-	{
-		if ( v[s] == v[e] ) return false;
-		else if ( gc == 1 ) return false;
-		return true;
-	}
-	void add ( int s, int e )
-	{
-		assert ( v[s] != v[e] );
-		if ( g[v[s]].size() > g[v[e]].size() ) swap ( s, e );
-		int si = v[s], ei = v[e];
-		for ( int& i : g[ei] ) {
-			v[i] = v[s];
-			g[si].emplace_back(i);
-		}
-		g[ei].clear();
-		--gc;
-	}
-	bool conn ( int s, int e )
-	{
-		return v[s] == v[e];
-	}
-};
+}
 
 int main ()
 {
-	int n;
-	scanf ( "%d", &n );
-	vector<int> vvvv ( n );
-	for ( int i = 0 ; i < n ; ++i ) vvvv[i] = i;
-	dsu ds ( n );
-	int s, e;
-	while ( true ) {
-		scanf ( "%d%d", &s, &e );
-		--s; --e;
-		if ( ds.dab ( s, e ) ) {
-			ds.add ( s, e );
-			for ( int i = 0 ; i < n ; ++i ) debug() << imie(ds.g[i]);
-		}
+	int t = 1;
+	scanf ( "%d" , &t );
+	for ( int i = 0 ; i < t ; ++i ) {
+//		printf ( "Case %d: ", i+1 );
+		solve ();
 	}
 
 

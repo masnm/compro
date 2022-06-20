@@ -37,32 +37,50 @@ sim dor(const c&) { ris; }
 
 using ll = long long int;
 
-const int nax = 100005;
-int ar[nax];
-int n, lim;
-
-int score ()
-{
-	int ans = 0;
-	for ( int i = 0 ; i < n ; ++i ) scanf ( "%d", &ar[i] );
-	sort ( ar, ar+n );
-	for ( int i = 0 ; i < lim ; ++i ) ans += ar[i];
-	return ans;
-}
+vector<int> a, b;
 
 void solve ()
 {
-	scanf ( "%d", &n );
-	lim = n - (n/4);
-	int ms = score(), os = score();
-	if ( ms >= os ) printf ( "%d\n", 0 );
-	else {
-		debug() << imie(os) imie(ms);
-		int dis = os - ms;
-		int stp = dis / 100;
-		if ( stp * 100 < dis ) ++stp;
-		printf ( "%d\n", stp );
+	int n; scanf ( "%d", &n );
+	a.resize ( n ); b.resize ( n );
+	for ( auto& i : a ) scanf ( "%d", &i );
+	for ( auto& i : b ) scanf ( "%d", &i );
+	for ( int i = 0 ; i < n ; ++i ) {
+		if ( b[i] > a[i] ) {
+			puts ( "NO" );
+			return;
+		}
 	}
+	bool fixed = false; int val = -1;
+	for ( int i = 0 ; i < n ; ++i ) {
+		if ( b[i] == 0 ) continue;
+		fixed = true;
+		val = a[i] - b[i];
+		break;
+	}
+	if ( !fixed ) { puts ( "YES" ); return; }
+	for ( int i = 0 ; i < n ; ++i ) {
+		a[i] -= val;
+		a[i] = max ( 0, a[i] );
+		if ( a[i] != b[i] ) {
+			puts ( "NO" );
+			return;
+		}
+	}
+	puts ( "YES" );
+	// for ( int i = 0 ; i < n ; ++i ) {
+	// 	if ( b[i] > a[i] ) { puts ( "NO" ); return; }
+	// 	if ( b[i] == 0 && !fixed ) continue;
+	// 	if ( b[i] == 0 && fixed && a[i] > val ) { puts ( "NO" ); return; }
+	// 	else if ( b[i] == 0 ) continue;
+	// 	if ( !fixed ) {
+	// 		fixed = true;
+	// 		val = a[i] - b[i];
+	// 	} else if ( a[i] - b[i] != val ) {
+	// 		puts ( "NO" ); return;
+	// 	}
+	// }
+	// puts ( "YES" );
 }
 
 int main ()
