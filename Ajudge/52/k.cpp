@@ -35,21 +35,37 @@ sim dor(const c&) { ris; }
 #define S second
 #define eb emplace_back
 
+string read_string ()
+{
+	static char ch[1000005];
+	scanf ( "%s", ch );
+	return string ( ch );
+}
+
 using ll = long long int;
 
-int main ()
+void solve ()
 {
-	int n = 1000000008, mx = 0;
-	for ( int i = 1 ; i < n ; ++i ) {
-		int cnt = 0;
-		for ( int j = 1 ; j * j <= i ; ++j ) {
-			if ( i%j == 0 ) {
-				if ( i/j == j ) ++cnt;
-				else cnt += 2;
-			}
-		}
-		mx = max ( mx, cnt );
-		debug() << imie(i) imie(cnt) imie(mx);
+	ll a, b; scanf ( "%lld%lld", &a, &b );
+	if ( abs(a) == abs(b) ) {
+		puts ( "IMPOSSIBLE" );
+		return;
+	}
+	ll k = (a*a) + (b*b);
+	k = k/(2*abs(a-b));
+	debug() << imie(k);
+	if ( abs(a-k)==abs(b-k) )
+		printf ( "%lld\n", k );
+	else puts ( "IMPOSSIBLE" );
+}
+
+int main ( int argc, char* argv[] )
+{
+	int t = 1;
+//	scanf ( "%d" , &t );
+	for ( int i = 0 ; i < t ; ++i ) {
+//		printf ( "Case %d: ", i+1 );
+		solve ();
 	}
 
 
