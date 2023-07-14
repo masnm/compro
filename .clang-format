@@ -23,7 +23,9 @@ AlignConsecutiveMacros: AcrossEmptyLines
 AlignConsecutiveMacros:
   Enabled: true
   AcrossComments: false
+UseTab: Always
 IndentWidth: 4
+TabWidth: 4
 AllowShortIfStatementsOnASingleLine: true
 IndentCaseLabels: false
 SpaceBeforeParens: Always
